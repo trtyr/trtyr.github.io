@@ -1,0 +1,470 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>虚拟局域网VLAN相关知识 | Trtyr's Blog</title><meta name="author" content="特让他也让"><meta name="copyright" content="特让他也让"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这个主要用在交换机上 一台交换机默认情况下连接一个广播域，因为默认情况下所有的接口都是属于同一个vlan的，默认vlan1，所以是在同一个广播域中。 结合交换机的工作原理，数据来了之后，如果交换机上面的所有接口全部连着主机或者其他设备，那么交换机就会从所有的接口广播出去，造成广播域有点大，导致广播流量过多，这样会产生网络拥塞。 为了解决上述情况，就需要在交换机上划分广播域，使得一个交换机上存在多个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟局域网VLAN相关知识">
+<meta property="og:url" content="http://example.com/2023/02/16/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Trtyr&#39;s Blog">
+<meta property="og:description" content="这个主要用在交换机上 一台交换机默认情况下连接一个广播域，因为默认情况下所有的接口都是属于同一个vlan的，默认vlan1，所以是在同一个广播域中。 结合交换机的工作原理，数据来了之后，如果交换机上面的所有接口全部连着主机或者其他设备，那么交换机就会从所有的接口广播出去，造成广播域有点大，导致广播流量过多，这样会产生网络拥塞。 为了解决上述情况，就需要在交换机上划分广播域，使得一个交换机上存在多个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com//media/2023/01/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.webp">
+<meta property="article:published_time" content="2023-02-16T01:56:55.101Z">
+<meta property="article:modified_time" content="2023-02-16T02:35:29.423Z">
+<meta property="article:author" content="特让他也让">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com//media/2023/01/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/16/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '虚拟局域网VLAN相关知识',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-16 10:35:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="css\cat.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="/css/universe.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/%5Cmedia%5Chead.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/%5Cmedia%5C2023%5C01%5C%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Trtyr's Blog"><span class="site-name">Trtyr's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">虚拟局域网VLAN相关知识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-16T01:56:55.101Z" title="发表于 2023-02-16 09:56:55">2023-02-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-16T02:35:29.423Z" title="更新于 2023-02-16 10:35:29">2023-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/">网络工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2023/02/16/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" data-flag-title="虚拟局域网VLAN相关知识"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>这个主要用在交换机上</p>
+<p>一台交换机默认情况下连接一个广播域，因为默认情况下所有的接口都是属于同一个vlan的，默认vlan1，所以是在同一个广播域中。</p>
+<p>结合交换机的工作原理，数据来了之后，如果交换机上面的所有接口全部连着主机或者其他设备，那么交换机就会从所有的接口广播出去，造成广播域有点大，导致广播流量过多，这样会产生网络拥塞。</p>
+<p>为了解决上述情况，就需要在交换机上划分广播域，使得一个交换机上存在多个广播域，这就是虚拟局域网VLAN</p>
+<h2 id="一-目的"><a href="#一-目的" class="headerlink" title="一. 目的"></a>一. 目的</h2><h3 id="1-划分广播域"><a href="#1-划分广播域" class="headerlink" title="1. 划分广播域"></a>1. 划分广播域</h3><p>虚拟局域网VLAN的目的是为了划分广播域，不同广播域中的主机，是不能够进行通信的，如果想要通信，这时候需要借助路由</p>
+<p>简单画个图看一下</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识1.webp" alt=""></p>
+<p>这是一个交换机（黑色框），有8个接口（红色的），这些接口都属于一个广播域，默认VLAN1，并且都有设备连接。现在从左面设备传来了一个数据，通过交换机广播给了其余的7个接口所对应的设备。</p>
+<p>我们设置虚拟VLAN后是这样的</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识2.webp" alt=""></p>
+<p>这样就变成了两个广播域，从左面设备传来的数据只会在本广播域进行广播，控制了广播</p>
+<h3 id="2-增强网络的安全性"><a href="#2-增强网络的安全性" class="headerlink" title="2. 增强网络的安全性"></a>2. 增强网络的安全性</h3><p>还是刚才的那个网络</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识3
+.webp" alt=""></p>
+<p>现在主机A沦陷了，于是向交换机发了一个ARP广播，那么这个广播只会在本广播域内进行破坏，不会对另一个广播域内的设备产生影响。控制破坏范围，减小损失。</p>
+<h3 id="3-简化了网络的管理"><a href="#3-简化了网络的管理" class="headerlink" title="3. 简化了网络的管理"></a>3. 简化了网络的管理</h3><p>由于我们划分了不同的广播域，网络的分区就特别的明显，使网络有条理。</p>
+<p>比如说这个广播域给财务部用，这个广播域给销售部用，两个部门在两个广播域中，不会造成流量干扰。通信的话加一个路由就行</p>
+<h2 id="二-VLAN种类"><a href="#二-VLAN种类" class="headerlink" title="二. VLAN种类"></a>二. VLAN种类</h2><p>VLAN分静态VLAN和动态VLAN</p>
+<h3 id="1-静态VLAN"><a href="#1-静态VLAN" class="headerlink" title="1. 静态VLAN"></a>1. 静态VLAN</h3><p>基于端口划分的静态路由，需要管理员去配置，创建VLAN并将接口加入到VLAN</p>
+<p>就像刚才举例的那样，把这些端口分到这个广播域，其他端口分配到其他的广播域。</p>
+<h3 id="2-动态VLAN"><a href="#2-动态VLAN" class="headerlink" title="2. 动态VLAN"></a>2. 动态VLAN</h3><p>基于MAC地址自动将同一类型的MAC地址加入到同一VLAN</p>
+<p>这种的比较少。我们举个例子</p>
+<p>公司采购电脑通常是同一个厂商的电脑，比如说统一采购苹果的，这个是每个主机MAC地址的厂商编号是一样的。这个时候要去基于MAC地址进行配置动态VLAN的话就比较麻烦，还得去分电脑，很不方便</p>
+<p>所以动态VLAN在实际使用场景中用的不是很多，不详细讲。</p>
+<h2 id="三-静态VLAN"><a href="#三-静态VLAN" class="headerlink" title="三. 静态VLAN"></a>三. 静态VLAN</h2><h3 id="1-VLAN的范围"><a href="#1-VLAN的范围" class="headerlink" title="1. VLAN的范围"></a>1. VLAN的范围</h3><p>我们这个VLAN的范围分思科设备和华为设备，这两个会有不同，我们讲的是思科设备。</p>
+<p>思科设备总计4096个VLAN：0~4095</p>
+<p>0和4095是保留的，不用</p>
+<p>默认VLAN是1</p>
+<p>以太网VLAN是2~1001共1000个VLAN</p>
+<p>扩展的以太网VLAN 1025~4094</p>
+<h3 id="2-配置静态VLAN"><a href="#2-配置静态VLAN" class="headerlink" title="2. 配置静态VLAN"></a>2. 配置静态VLAN</h3><h4 id="1-思路"><a href="#1-思路" class="headerlink" title="(1) 思路"></a>(1) 思路</h4><p>创建VLAN</p>
+<p>将接口加入VLAN，这里需要指定接口的模式</p>
+<h4 id="2-实验"><a href="#2-实验" class="headerlink" title="(2) 实验"></a>(2) 实验</h4><p>我们拿出一个交换机</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识4.webp" alt=""></p>
+<p>这个交换机有24个快速以太网接口，两个千兆接口</p>
+<p>这些接口默认在VLAN1中</p>
+<p>我们现在想要将 f0/10接口加入到VLAN2，然后还要将20到24号接口加入到VLAN3</p>
+<p>我们先要创建VLAN2和VLAN3，在全局模式下直接VLAN 2就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vlan 2  // 创建vlan2</span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line">vlan 3  // 创建vlan3</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识5.webp" alt=""></p>
+<p>这样就创建好了。</p>
+<p>还有一种不常用的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vlan databas  // 进入VLAN的数据库</span><br><span class="line"></span><br><span class="line">vlan 10  // 创建VLAN 10</span><br></pre></td></tr></table></figure>
+<p>这个有的版本可能不好使。</p>
+<p>那么我们怎么查看我们创建的广播域呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show vlan brief</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识6.webp" alt=""></p>
+<p>可以看见有一个默认的vlan以及vlan2和vlan3，接口都在默认vlan中</p>
+<p>我们现在需要把f0/10扔到vlan2中，20到24接口扔到vlan3中</p>
+<h5 id="1、f0-10扔到vlan2中"><a href="#1、f0-10扔到vlan2中" class="headerlink" title="1、f0/10扔到vlan2中"></a>1、f0/10扔到vlan2中</h5><p>我们先进到f0/10接口中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">int f0/10</span><br></pre></td></tr></table></figure>
+<p>然后需要配置一下接口的模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">switchport mode access  // switchport是交换机 mode是模式 access代表接入接口</span><br><span class="line"></span><br><span class="line">这种access模式的接口一般用于连接客户机</span><br></pre></td></tr></table></figure>
+<p>然后将接口加入到vlan2中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switchport access vlan 2</span><br></pre></td></tr></table></figure>
+<p>这样就可以了，我们再show一下</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识7.webp" alt=""></p>
+<p>这样就把f0/10接口加到vlan2中了。</p>
+<h5 id="2、f0-20到f0-24扔到vlan3中"><a href="#2、f0-20到f0-24扔到vlan3中" class="headerlink" title="2、f0/20到f0/24扔到vlan3中"></a>2、f0/20到f0/24扔到vlan3中</h5><p>我们这里肯定不能一个一个加，这样能累死</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int range f0/20-24   // 进入这个接口范围 </span><br></pre></td></tr></table></figure>
+<p>之后就和上面一样了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">switchport mode access</span><br><span class="line">switchport access vlan 3</span><br></pre></td></tr></table></figure>
+<p>这样就行了，我们再show一下</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识8.webp" alt=""></p>
+<p>这样就可以了</p>
+<h5 id="3、通信演示"><a href="#3、通信演示" class="headerlink" title="3、通信演示"></a>3、通信演示</h5><p>现在还是那个交换机，加两个设备</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识9.webp" alt=""></p>
+<p>PC0接在交换机的f0/2接口上，属于默认VLAN；PC1接在交换机的f0/20接口上，属于VLAN3。</p>
+<p>我们给这两个设备设置IP</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识10.webp" alt=""></p>
+<p>我们拿PC0 ping PC1，应该是ping不通的</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识11.webp" alt=""></p>
+<p>我们可以看到，PC0去ping PC1的时候，在0秒的时候数据在PC0准备发送，在0.015秒的时候传到了PC1，然后在0.016的时候传到了PC1。</p>
+<p>哎，我们看一下这个PC1</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识12.webp" alt=""></p>
+<p>它告诉我们，这个设备没有接收到来自第二层的数据帧，因为广播地址不匹配。</p>
+<p>在看看回应</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识13.webp" alt=""></p>
+<p>可以看到ICMP协议，也就是ping，第二次出错了。</p>
+<h4 id="3-其他操作"><a href="#3-其他操作" class="headerlink" title="(3) 其他操作"></a>(3) 其他操作</h4><p>我们上面讲了怎么创建，添加，查看VLAN，这里还有一些东西</p>
+<p>比如查看特定的VLAN</p>
+<p>我们查看vlan2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show vlan id 2</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识14.webp" alt=""></p>
+<p>先创建一个vlan4，再把它删了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">全局模式下创建vlan4</span><br><span class="line"></span><br><span class="line">vlan 4</span><br></pre></td></tr></table></figure>
+<p>我们先看一下</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识15.webp" alt=""></p>
+<p>有一个vlan4是吧</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">全局模式下</span><br><span class="line">no vlan 4  // 删除vlan4</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识16.webp" alt=""></p>
+<p>可以看见vlan4没了。</p>
+<h2 id="四-VLAN-trunk"><a href="#四-VLAN-trunk" class="headerlink" title="四. VLAN trunk"></a>四. VLAN trunk</h2><p>按照上述配置VLAN后有一个问题</p>
+<p>这样的一个网络</p>
+<p>![[临时图片/17.png]]</p>
+<p>上面是VLAN 10，下面是VLAN 20</p>
+<p>VLAN 10 有：PC0，PC1，交换机0的f0/1接口，交换机1的F0/2接口</p>
+<p>VLAN 20 有：PC2，PC3，交换机0的f0/3接口，交换机1的F0/3接口</p>
+<p>这两个交换机由一条线连着，那么有个问题</p>
+<p>交换机0的f0/2接口和交换机1的f0/1接口是属于哪个VLAN</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识18.webp" alt=""></p>
+<p><strong>VLAN trunk可以实现同一个VLAN跨交换机进行通信</strong>，所以交换机中间的链路我们要配置成VLAN 10可以过去，VLAN 20也可以过去</p>
+<h3 id="1-目的"><a href="#1-目的" class="headerlink" title="1. 目的"></a>1. 目的</h3><p>实现<strong>相同VLAN</strong>跨交换机进行通信</p>
+<p>就是上图中间那条线可以承载任何VLAN，这条链路叫做trunk链路</p>
+<p>实现trunk链路需要去设置链路两段接口的模式</p>
+<h3 id="2-交换机接口模式"><a href="#2-交换机接口模式" class="headerlink" title="2. 交换机接口模式"></a>2. 交换机接口模式</h3><h4 id="1-试结果"><a href="#1-试结果" class="headerlink" title="(1) 试结果"></a>(1) 试结果</h4><p>我们拿出一个交换机</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识19.webp" alt=""></p>
+<p>我们看一下它f0/1接口的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show int f0/1 switchport</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识20.webp" alt=""></p>
+<p>得到一堆信息，这些信息我在这篇文章讲过</p>
+<p>他里头有一个这个东西</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Administrative Mode: dynamic auto  // 管理模式：动态自动</span><br></pre></td></tr></table></figure>
+<p>这就是交换机的接口模式，交换机的所有接口默认是动态自动</p>
+<p>这里还有一个这个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Operational Mode: down  // 操作模式：down</span><br></pre></td></tr></table></figure>
+<p>这个显示down，有因为我们现在还没有接主机，我们接一个试试</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识21.webp" alt=""></p>
+<p>连上就变成这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Operational Mode: static access  // 操作模式：静态访问</span><br></pre></td></tr></table></figure>
+<p>说明现在是静态接入链路。</p>
+<p>刚才是接入一个主机，那我们再接上一个交换机</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识22-1.webp" alt=""></p>
+<p>交换机的默认管理模式是auto，连接设备的操作模式默认是静态访问</p>
+<p>f0/2是动态自动，f0/1是动态自动，那么他们会协商出啥，理论上是动态自动</p>
+<p>我们看一下交换机2的f0/2接口</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识23-1.webp" alt=""></p>
+<p>可以发现，这个接着交换机的接口的模式和接着主机的接口模式一样，还是auto和access</p>
+<p>我们可以得出一个结论</p>
+<p><strong>交换机连接主机：协商出的结果access</strong></p>
+<p><strong>交换机连接交换机：动态自动—————动态自动，操作模式协商结果是access</strong></p>
+<p>那么有没有可能协商出别的东西</p>
+<p>我们把交换机2的f0/2接口模式变成其他的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conf t</span><br><span class="line">switchport mode ?</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识24-1.webp" alt=""></p>
+<p>可以看见有三个模式，access（静态直通），dynamic（动态）和trunk（分布式）</p>
+<p>我们设置成动态，然后看看动态后面还有没有</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switchport mode dynamic ?</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识25-1.webp" alt=""></p>
+<p>有动态自动和动态企望</p>
+<p>我们设置为动态企望</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switchport mode dynamic desirable</span><br></pre></td></tr></table></figure>
+<p>设置好后我们再show一下看看</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识26-1.webp" alt=""></p>
+<p>可以看到，管理模式变成了动态企望，操作模式是trunk</p>
+<p>所以我们可以再得出一个东西</p>
+<p><strong>交换机连接交换机：动态自动—————动态企望，操作模式协商结果是trunk</strong></p>
+<p>那么右面的呢的那台交换机3是啥样的</p>
+<p>由于我们没设置，所以管理模式是动态自动，操作模式是协商出来的，所以交换机3的操作模式肯定是trunk</p>
+<p>我们检查看一下</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识27-1.webp" alt=""></p>
+<p>和我们想的一样.</p>
+<p>我们再把交换机2的f0/2接口设置成access</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int f0/2 </span><br><span class="line">sw mo acc  // 可以缩写</span><br><span class="line">end</span><br><span class="line">show int f0/2 sw  //可以缩写</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识28-1.webp" alt=""></p>
+<p>所以我们又得到了一个结果</p>
+<p><strong>交换机连接交换机：动态自动—————access，操作模式协商结果是access</strong></p>
+<p>其他的我就不演示了</p>
+<h4 id="2-简单粗暴的方法"><a href="#2-简单粗暴的方法" class="headerlink" title="(2) 简单粗暴的方法"></a>(2) 简单粗暴的方法</h4><p>如果你记不住上面那些东西，可以直接这样</p>
+<p>这个链路你要是想设置成trunk，直接两端口设置成trunk；想要设置成access直接两个端口都设置成access，啥协商不协商的，直接不管，接口设置成一样的就行了。</p>
+<h3 id="3-实验"><a href="#3-实验" class="headerlink" title="3. 实验"></a>3. 实验</h3><p>现在一个网络</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识30.webp" alt=""></p>
+<p>其中PC1和PC2属于VLAN 10；PC0和PC3属于VLAN 20</p>
+<p>我们先分配一下VLAN</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">交换机0：</span><br><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">vlan 10</span><br><span class="line">exit</span><br><span class="line">vlan 20</span><br><span class="line">end</span><br><span class="line">show vlan brief  // 这里看一下创没创建好</span><br><span class="line">conf t</span><br><span class="line">int f0/1</span><br><span class="line">switchport access vlan 20  // 由于它默认就是access，所以我们可以不用格外的去设置接口模式</span><br><span class="line">(exit)  // 可加可不加</span><br><span class="line">int f0/3  // 这里不用退出，可以直接进入f0/3接口，但是这样容易看错，不建议</span><br><span class="line">switchport access vlan 10</span><br><span class="line">end</span><br><span class="line">show vlan brief</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识31.webp" alt=""></p>
+<p>好了之后，同理去设置交换机1，下图是交换机1的</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识32.webp" alt=""></p>
+<p>检查一下，现在VLAN 10有PC2和PC1；VLAN 20有PC0和PC3，分配成功</p>
+<p>然后我们再针对那两个20号接口做一下设置</p>
+<p>我们想要把中间两条链路变成trunk链路。</p>
+<p>这里简单科普个东西：</p>
+<p>我们中间的这个链路是可以让所有设备封装的数据帧通过。但是我们学交换机的时候，二层有两种数据帧封装方式，一个是E2，一个是802.3，而802.3是所有设备都可以用的，所以我们要让中间那条链路封装成802.3。</p>
+<p>意思就是两个交换机不是同一个交换机，可能会发生这个交换机封装成E2，另一个却要用802.3的，所以要同一一下，如果是同一个交换机就不用管</p>
+<p>我们再看一下接口信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show int f0/20 sw</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识33.webp" alt=""></p>
+<p>我们刚才说的东西就是这个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Administrative Trunking Encapsulation: dot1q   // 管理中继封装：dot1q</span><br></pre></td></tr></table></figure>
+<p>由于我们现在是两个相同的交换机，所以不用管这个。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">交换机0</span><br><span class="line">int f0/20</span><br><span class="line">switchport mode trunk</span><br></pre></td></tr></table></figure>
+<p>交换机0是trunk模式，交换机1是动态自动模式，根据那个表，协商出来的结果是trunk，所以交换机1根本不用管</p>
+<p>然后我们分配一下IP，VLAN 10分配10网段，VLAN 20分配20网段</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识34.webp" alt=""></p>
+<p>我们去ping一下</p>
+<p>用PC0去ping PC3</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识35.webp" alt=""></p>
+<p>可以发现能ping通</p>
+<h3 id="4-trunk封装"><a href="#4-trunk封装" class="headerlink" title="4. trunk封装"></a>4. trunk封装</h3><p>我们上面讲了一个东西，就是不同交换机的话需要同一配置成802.3的帧，所以这里又有标准</p>
+<h4 id="1-思科（ISL）"><a href="#1-思科（ISL）" class="headerlink" title="(1) 思科（ISL）"></a>(1) 思科（ISL）</h4><p>ISL是思科私有的帧格式</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识36.webp" alt=""></p>
+<p>他就是在前面加了一个26字节的ISL头，在后面加了一个4字节的尾</p>
+<h4 id="2-标准帧（802-3）"><a href="#2-标准帧（802-3）" class="headerlink" title="(2) 标准帧（802.3）"></a>(2) 标准帧（802.3）</h4><p>比如我们上面的那个dot1q，就是802.1q，主要是不同厂商交换机使用的共有标准</p>
+<p><img src="\media\2023\01\虚拟局域网VLAN相关知识37.webp" alt=""></p>
+<p>本来从左面设备来的是正常的以太网帧，到达第一个交换机后，他会发现这个是从VLAN 20来的，它就会会加一个4字节的802.1q的标记来标记他是VLAN 20的，然后通过中继链路传过去后，下一台交换机就会知道这是VLAN 20的数据，把标签拆掉，从VLAN 20的接口转发</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>虚拟局域网VLAN相关知识</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://example.com/2023/02/16/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">http://example.com/2023/02/16/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>特让他也让</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a></div><div class="post_share"><div class="social-share" data-image="/%5Cmedia%5C2023%5C01%5C%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/16/%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/" title="单臂路由和三层交换机"><img class="cover" src="/%5Cmedia%5C2023%5C01%5C%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">单臂路由和三层交换机</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/16/%E8%B7%AF%E7%94%B1%E5%99%A8%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" title="路由器基础相关知识"><img class="cover" src="/%5Cmedia%5C2023%5C01%5C%E8%B7%AF%E7%94%B1%E5%99%A8%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">路由器基础相关知识</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/" title="ICMP协议与ICMP重定向"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ICMP协议与ICMP重定向</div></div></a></div><div><a href="/2023/02/16/ARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98/" title="ARP协议原理与ARP攻击欺骗及模拟实战"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ARP协议原理与ARP攻击欺骗及模拟实战</div></div></a></div><div><a href="/2023/02/16/IP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%A0%BC%E5%BC%8F/" title="IP数据包的格式"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CIP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%A0%BC%E5%BC%8F.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">IP数据包的格式</div></div></a></div><div><a href="/2023/02/16/Ettercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(ARP,ICMP,DNS)/" title="Ettercap使用教程(ARP,ICMP,DNS)"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CEttercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Ettercap使用教程(ARP,ICMP,DNS)</div></div></a></div><div><a href="/2023/02/16/IP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/" title="IP地址方面知识详解"><img class="cover" src="/%5Cmedia%5C2022%5C12%5CIP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">IP地址方面知识详解</div></div></a></div><div><a href="/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/" title="MSF渗透测试框架介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">MSF渗透测试框架介绍</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/%5Cmedia%5Chead.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">特让他也让</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fomalhaut1998"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/media%5Cwechat.jpg" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://res.abeim.cn/api/qq/?qq=1693309049" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ1"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/440805873" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:1693309049@qq.com" target="_blank" title="邮箱"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>主域名：<br><a target="_blank" rel="noopener" href="https://www.trtyr.top"><b><font color="#5ea6e5">www.trtyr.top</font></b></a>&nbsp;|&nbsp;<a target="_blank" rel="noopener" href="https://trtyr.github.io"><b><font color="#5ea6e5">trtyr.github.io</font></b></a><br>子域名：<br><a target="_blank" rel="noopener" href="https://home.trtyr.top"><b><font color="#5ea6e5">主站</font></b></a><br><br><a href=""><b><font color="#5ea6e5"></font></b></a><br><a href="mailto:1693309049@qq.com">📬：<b><font color="#a591e0">1693309049@qq.com</font></b></a></center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E7%9B%AE%E7%9A%84"><span class="toc-text">一. 目的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%92%E5%88%86%E5%B9%BF%E6%92%AD%E5%9F%9F"><span class="toc-text">1. 划分广播域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A2%9E%E5%BC%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-text">2. 增强网络的安全性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%80%E5%8C%96%E4%BA%86%E7%BD%91%E7%BB%9C%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-text">3. 简化了网络的管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-VLAN%E7%A7%8D%E7%B1%BB"><span class="toc-text">二. VLAN种类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9D%99%E6%80%81VLAN"><span class="toc-text">1. 静态VLAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81VLAN"><span class="toc-text">2. 动态VLAN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E9%9D%99%E6%80%81VLAN"><span class="toc-text">三. 静态VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-VLAN%E7%9A%84%E8%8C%83%E5%9B%B4"><span class="toc-text">1. VLAN的范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81VLAN"><span class="toc-text">2. 配置静态VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%80%9D%E8%B7%AF"><span class="toc-text">(1) 思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%9E%E9%AA%8C"><span class="toc-text">(2) 实验</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81f0-10%E6%89%94%E5%88%B0vlan2%E4%B8%AD"><span class="toc-text">1、f0&#x2F;10扔到vlan2中</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81f0-20%E5%88%B0f0-24%E6%89%94%E5%88%B0vlan3%E4%B8%AD"><span class="toc-text">2、f0&#x2F;20到f0&#x2F;24扔到vlan3中</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E9%80%9A%E4%BF%A1%E6%BC%94%E7%A4%BA"><span class="toc-text">3、通信演示</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C"><span class="toc-text">(3) 其他操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-VLAN-trunk"><span class="toc-text">四. VLAN trunk</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%AE%E7%9A%84"><span class="toc-text">1. 目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%BC%8F"><span class="toc-text">2. 交换机接口模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="toc-text">(1) 试结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%AE%80%E5%8D%95%E7%B2%97%E6%9A%B4%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">(2) 简单粗暴的方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%9E%E9%AA%8C"><span class="toc-text">3. 实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-trunk%E5%B0%81%E8%A3%85"><span class="toc-text">4. trunk封装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%80%9D%E7%A7%91%EF%BC%88ISL%EF%BC%89"><span class="toc-text">(1) 思科（ISL）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%A0%87%E5%87%86%E5%B8%A7%EF%BC%88802-3%EF%BC%89"><span class="toc-text">(2) 标准帧（802.3）</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 特让他也让</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'gdjBQ7XwjJzetJU0H5tLRNyI-gzGzoHsz',
+      appKey: 'Tk7aqAqax7d0mie5GjzKgSrY',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script> <script defer data-pjax src="js\cat.js"></script> <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script> <script async src="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.js"></script> <script defer src="/js/cursor.js"></script> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(media/网络协议.webp);"> <a class="categoryBar-list-link" href="categories/网络协议/">网络协议</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络工程.webp);"> <a class="categoryBar-list-link" href="categories/网络工程/">网络工程</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/Windows.webp);"> <a class="categoryBar-list-link" href="categories/网络安全/">网络安全</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/社会工程学.webp);"> <a class="categoryBar-list-link" href="categories/Windows/">Windows</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络安全.webp);"> <a class="categoryBar-list-link" href="categories/社会工程学/">社会工程学</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = '07b0bda080a14fbcb7ac576c020f73fe';
+  var gaud_map_key = '4028e9252277c3c906e3c572fa17df68';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/统计/'|| '/统计/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?Fomalhaut-Blog",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'Fomalhaut-Blog')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>MSF渗透测试框架介绍 | Trtyr's Blog</title><meta name="author" content="特让他也让"><meta name="copyright" content="特让他也让"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一. MSF1. MSF介绍MSF全称Metasploit，是一款开源安全漏洞检测工具，附带数百个已知的软件漏洞，并保持频繁更新。被安全社区冠以 “可以黑掉整个宇宙” 之名的强大渗透测试框架。 Metasploit是一款开源的渗诱测过框架平台，到目前为止，msf已经内置了数千个已披露的漏洞相关的模块和渗透测试工具。 模块使用ruby语言编写，这使得使用者能够根据需要对模块进行适当修改，甚至是调用自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MSF渗透测试框架介绍">
+<meta property="og:url" content="http://example.com/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Trtyr&#39;s Blog">
+<meta property="og:description" content="一. MSF1. MSF介绍MSF全称Metasploit，是一款开源安全漏洞检测工具，附带数百个已知的软件漏洞，并保持频繁更新。被安全社区冠以 “可以黑掉整个宇宙” 之名的强大渗透测试框架。 Metasploit是一款开源的渗诱测过框架平台，到目前为止，msf已经内置了数千个已披露的漏洞相关的模块和渗透测试工具。 模块使用ruby语言编写，这使得使用者能够根据需要对模块进行适当修改，甚至是调用自">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com//media/2023/02/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp">
+<meta property="article:published_time" content="2023-02-16T02:54:17.098Z">
+<meta property="article:modified_time" content="2023-02-16T02:59:54.817Z">
+<meta property="article:author" content="特让他也让">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com//media/2023/02/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MSF渗透测试框架介绍',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-16 10:59:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="css\cat.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="/css/universe.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/%5Cmedia%5Chead.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Trtyr's Blog"><span class="site-name">Trtyr's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MSF渗透测试框架介绍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-16T02:54:17.098Z" title="发表于 2023-02-16 10:54:17">2023-02-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-16T02:59:54.817Z" title="更新于 2023-02-16 10:59:54">2023-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/" data-flag-title="MSF渗透测试框架介绍"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一-MSF"><a href="#一-MSF" class="headerlink" title="一. MSF"></a>一. MSF</h2><h3 id="1-MSF介绍"><a href="#1-MSF介绍" class="headerlink" title="1. MSF介绍"></a>1. MSF介绍</h3><p>MSF全称Metasploit，是一款开源安全漏洞检测工具，附带数百个已知的软件漏洞，并保持频繁更新。被安全社区冠以 “可以黑掉整个宇宙” 之名的强<br>大渗透测试框架。</p>
+<p>Metasploit是一款开源的渗诱测过框架平台，到目前为止，msf已经内置了数千个已披露的漏洞相关的模块和渗透测试工具。</p>
+<p>模块使用ruby语言编写，这使得使用者能够根据需要对模块进行适当修改，甚至是调用自己写的测试模块。</p>
+<p>选定需要使用的攻击模块之后，你只需要使用简单的命令配置一些参数就能完成针对一个漏洞的测试和利用，将渗透的过程自动化、简单化。</p>
+<h4 id="MSF安装使用"><a href="#MSF安装使用" class="headerlink" title="MSF安装使用"></a>MSF安装使用</h4><p>MSF在kail中已经内置好了，直接在kail命令行中输入<code>msfconsole</code>就可以使用了。</p>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍1.webp" alt=""></p>
+<h4 id="MSF在kali中的更新"><a href="#MSF在kali中的更新" class="headerlink" title="MSF在kali中的更新"></a>MSF在kali中的更新</h4><p>配置源，kali的更新，kali软件包的更新等等，这里就不多介绍了。</p>
+<p>我们在命令行输入这个命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install metasploit-framework</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍2.webp" alt=""></p>
+<p>问我们是否继续执行，输入 ‘y’</p>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍3.webp" alt=""></p>
+<p>开始进行安装了。等待完成即可。</p>
+<h3 id="2-MSF图形化"><a href="#2-MSF图形化" class="headerlink" title="2. MSF图形化"></a>2. MSF图形化</h3><p>Viper是一款图形化内网渗透工具,将内网渗透过程中常用的战术及技术进行模块化及武器化</p>
+<p>集成杀软绕过内网隧道,文件管理,命令行等基础功能</p>
+<p>当前已集成70+个模块覆盖初始访问/持久化/权限提升/防御绕过/凭证访问/信息收集/横向移动等大类</p>
+<h4 id="在Kali上通过Docker安装Viper-炫彩蛇"><a href="#在Kali上通过Docker安装Viper-炫彩蛇" class="headerlink" title="在Kali上通过Docker安装Viper(炫彩蛇)"></a>在Kali上通过Docker安装Viper(炫彩蛇)</h4><h5 id="1、安装docker"><a href="#1、安装docker" class="headerlink" title="1、安装docker"></a>1、安装docker</h5><p>我们先update一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
+<p>等待更新完毕，更新好了之后我们就可以开始拉docker了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install docker.io</span><br></pre></td></tr></table></figure>
+<p>然后等待安装完成后，我们查询一下docker的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker version</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍4.webp" alt=""></p>
+<p>我们再设置一下docker的开机自启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+<h5 id="2、安装docker-compose"><a href="#2、安装docker-compose" class="headerlink" title="2、安装docker-compose"></a>2、安装docker-compose</h5><p>我们输入这个命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://get.daocloud.io/docker/compose/releases/download/1.25.5/docker-compose-`uname -s`-`uname -m`  &gt; /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍5.webp" alt=""></p>
+<p>这里就拉了一个脚本，我们再输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>然后设定一个安装目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export VIPER_DIR=/root/VIPER</span><br></pre></td></tr></table></figure>
+<p>然后我们生成一个安装目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $VIPER_DIR &amp;&amp; cd $VIPER_DIR</span><br></pre></td></tr></table></figure>
+<p>然后我们输入这些代码，生成一个.yml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">tee docker-compose.yml &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">version: &quot;3&quot;</span><br><span class="line">services:</span><br><span class="line">  viper:</span><br><span class="line">    image: registry.cn-shenzhen.aliyuncs.com/toys/viper:latest</span><br><span class="line">    container_name: viper-c</span><br><span class="line">    network_mode: &quot;host&quot;</span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - $&#123;PWD&#125;/loot:/root/.msf4/loot</span><br><span class="line">      - $&#123;PWD&#125;/db:/root/viper/Docker/db</span><br><span class="line">      - $&#123;PWD&#125;/module:/root/viper/Docker/module</span><br><span class="line">      - $&#123;PWD&#125;/log:/root/viper/Docker/log</span><br><span class="line">      - $&#123;PWD&#125;/nginxconfig:/root/viper/Docker/nginxconfig</span><br><span class="line">    command: [&quot;VIPER_PASSWORD&quot;]</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>注意一定要一摸一样，空格，冒号，缩进，符号，不能差了。</p>
+<p>然后我们设置一个登录密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export VIPER_PASSWORD=root（你自己的密码）</span><br></pre></td></tr></table></figure>
+<p>然后我们将密码写到yml文件里头</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &quot;s/VIPER_PASSWORD/$VIPER_PASSWORD/g&quot; docker-compose.yml</span><br></pre></td></tr></table></figure>
+<p>我们来检查一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat docker-compose.yml</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍6.webp" alt=""></p>
+<p>可以看到root已经写进去了</p>
+<h5 id="3、创建启动VIPER"><a href="#3、创建启动VIPER" class="headerlink" title="3、创建启动VIPER"></a>3、创建启动VIPER</h5><p>进到viper的目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd $VIPER_DIR  </span><br></pre></td></tr></table></figure>
+<p>创建启动docker</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍7.webp" alt=""></p>
+<p>viper安装完成</p>
+<p>然后我们在浏览器中访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://你的IP:60000</span><br></pre></td></tr></table></figure>
+<p>比如我的就是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.40.129:60000</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍8.webp" alt=""></p>
+<p>输入账号密码，按照刚才设置的话，账号密码都是root。</p>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍9.webp" alt=""></p>
+<p>成功进入。</p>
+<h2 id="二-MSF的目录结构"><a href="#二-MSF的目录结构" class="headerlink" title="二. MSF的目录结构"></a>二. MSF的目录结构</h2><h3 id="1-主目录"><a href="#1-主目录" class="headerlink" title="1. 主目录"></a>1. 主目录</h3><p>我们在终端中进入这个目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/metasploit-framework</span><br></pre></td></tr></table></figure>
+<p>输入 ‘ls’</p>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍10.webp" alt=""></p>
+<p>这里就是MSF的一些文件夹</p>
+<p><img src="\media\2023\02\MSF渗透测试框架2.webp" alt=""></p>
+<p>这其中包括了config配置文件、plugins插件、tools工具、db数据库文件、modules模块文件以及msfconsole、msfdb等命令。</p>
+<p>modules中的文件为我们最常用的模块文件，其中每个模块中都根据不同的操作系统，分为不同平台不同协议功能对应的漏洞利用文件，这些文件用ruby编写。</p>
+<p>以下是文件的介绍</p>
+<!-- wp:table -->
+<p><figure class="wp-block-table"><table><tbody><tr><td>文件名</td><td>功能</td></tr><tr><td>config</td><td>metasploit的环境配置信息，数据库配置信息</td></tr><tr><td>data</td><td>后渗透模块的一些工具及payload，第三方小工具集合，用户字典等数据信息</td></tr><tr><td>db</td><td>rails编译生成msf的web框架时的数据库信息</td></tr><tr><td>documentation</td><td>用户说明文档及开发文档</td></tr><tr><td><s>external</s></td><td><s>metasploit的一些基础扩展模块</s></td></tr><tr><td>lib</td><td>metasploit的一些基础类和第三方模块类</td></tr><tr><td>log</td><td>msf运行时的一些系统信息和其他信息</td></tr><tr><td>modules</td><td>metasploit的系统工具模块，包括顶辅助模块（auxiliary），渗透模块（exploits）攻击荷载（pavloads）和后渗透模块</td></tr><tr><td><s>msfbinscan</s></td><td><s>对bin文件进行文件偏移地址扫描</s></td></tr><tr><td><s>msfcli</s></td><td><s>metasploit命令行模式，可以快速调用有效的payload进行攻击，2015年6月18日已弃用，了解一下</s></td></tr><tr><td>msfconsole</td><td>metasploit的基本命令行，集成了各种功能。</td></tr><tr><td>msfd</td><td>metasploit服务，非持久性服务</td></tr><tr><td><s>msfelfscan</s></td><td><s>对linux的elf文件偏移地址进行扫描</s></td></tr><tr><td><s>msfencode</s></td><td><s>metasploit的编码模块，可以对mepayload和shellcode进行编码输出，已被msfvenmon替代。</s></td></tr><tr><td><s>msfpayload</s></td><td><s>metasploit攻击荷载，用以调用不同的攻击荷载，生成和输出不同格式的shellcode，已被msfvenmon替代。</s></td></tr><tr><td><s>msfmachscan</s></td><td><s>功能同msfelfscan</s></td></tr><tr><td><s>msfpescan</s></td><td><s>对windows的pe格式文件偏移地址进行扫描</s></td></tr><tr><td><s>msfrop</s></td><td><s>对windows的pe进行文件地址偏移操作，可以绕过alsr等</s></td></tr><tr><td>msfrpc</td><td>metasploit的服务端，非持久性的rpc服务</td></tr><tr><td>msfrpcd</td><td>持久性的metasploit本地服务，可以给远程用户提供rpc服务以及其他的http服务，可以通过xml进行数据传输。</td></tr><tr><td>msfupdate</td><td>metasploit更新模块，可以用来更新metasploit模块</td></tr><tr><td>msfvenom</td><td>集成了msfpayload和msfencode的功能，效率更高，替代msfpayload和msfencode</td></tr><tr><td>plugins</td><td>metasploit的第三方插件接口</td></tr><tr><td>scripts</td><td>metasplit的常用后渗透模块，区别于data里的后渗透模块，不需要加post参数和绝对路径，可以直接运行</td></tr><tr><td><s>test</s></td><td><s>metasploit的基本测试目录</s></td></tr><tr><td>tools</td><td>额外的小工具和第三方脚本工具</td></tr></tbody></table></figure><br><!-- /wp:table --></p>
+<h3 id="2-模块"><a href="#2-模块" class="headerlink" title="2. 模块"></a>2. 模块</h3><p>我们看看modules文件夹</p>
+<p>所在位置: /usr/share/metasploit-framework/modules</p>
+<p><img src="\media\2023\02\MSF渗透测试框架1.webp" alt=""></p>
+<!-- wp:table -->
+<p><figure class="wp-block-table"><table><tbody><tr><td>模块名</td><td>中文解释</td><td>功能描述</td></tr><tr><td>Auxiliaries</td><td>辅助模块</td><td>该模块不会直接在测试者和目标主机之间建立访问，<br>它们只负责执行扫描、嗅探、指纹识别等相关功能以辅助渗透测试</td></tr><tr><td>Exploit</td><td>漏洞利用模块</td><td>漏洞利用是指由渗透测试者利用一个系统、应用或者服务中的安全漏洞进行的攻击行为。流行的渗透测试攻击技术包括缓冲区溢出、Web应用程序攻击，以及利用配置错误等，其中包含攻击者或测试人员针对系统中的漏洞而设计的各种POC验证程序，用于破坏系统安全性的攻击代码每个漏洞都有相应的攻击代码。</td></tr><tr><td>Payload</td><td>攻击载荷模块</td><td>攻击载荷是我们期望目标系统在被渗透攻击之后完成实际供给功能的代码，成功渗透目标后，用于在目标系统上运行任意命令或者执行特定代码，在Metasploit框架中可以自由选择、传送和植入。攻击载荷也可能是简单地在目标操作系统上执行一些命令，如添加用户账号等</td></tr><tr><td>Post</td><td>后期渗透模块</td><td>该模块主要用于在取得目标系统远程控制权后，进行一系列的后渗透攻击动作，如获取敏感信息、实施跳板攻击等</td></tr><tr><td>Encoders</td><td>编码工具模块</td><td>该模块在渗透测试中负责免杀，以防止被杀毒软件、防火墙、IDS及类似的安全软件检测出来</td></tr><tr><td>evasion</td><td>混淆模块</td><td>能够生成绕过杀毒软件的shell (目前只适用于Windows)</td></tr><tr><td>Meterpreter</td><td>后续利用模块</td><td>作为溢出成功以后的攻击载荷使用，攻击载荷在溢出攻击成功以后给我们返回一个控制通道。通常也作为后渗透测试功能使用。</td></tr></tbody></table></figure><br><!-- /wp:table --></p>
+<h4 id="1-Auxiliaries"><a href="#1-Auxiliaries" class="headerlink" title="(1) Auxiliaries"></a>(1) Auxiliaries</h4><p>这个模块是来辅助渗透的，比如端口扫描啊，漏洞验证啊，登录密码爆破啊等等这些东西</p>
+<p>我们在MSF中看一下，命令行输入<code>msfconsole</code>打开MSF，然后通过<code>search</code>来找到和Auxiliaries相关的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">search auxiliary</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍11.webp" alt=""></p>
+<p>可以看到有这么多东西。</p>
+<h4 id="2-Exploit"><a href="#2-Exploit" class="headerlink" title="(2) Exploit"></a>(2) Exploit</h4><p>Exploit模块，这是一个漏洞利用模块，包含主流的漏洞利用脚本，通常是对默写可能存在漏洞的目标进行漏洞利用</p>
+<p><img src="\media\2023\02\MSF渗透测试框架介绍12.webp" alt=""></p>
+<h4 id="3-其他的自行查看就行了。"><a href="#3-其他的自行查看就行了。" class="headerlink" title="(3) 其他的自行查看就行了。"></a>(3) 其他的自行查看就行了。</h4><p>剩下的自己看看就行了，这里就不作过多的介绍</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>MSF渗透测试框架介绍</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://example.com/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/">http://example.com/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>特让他也让</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a></div><div class="post_share"><div class="social-share" data-image="/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/16/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E4%BB%8B%E7%BB%8D%E5%AD%A6%E4%B9%A0%20-%20%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" title="内网穿透介绍学习 - 端口转发"><img class="cover" src="/%5Cmedia%5C2023%5C02%5C%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E4%BB%8B%E7%BB%8D%E5%AD%A6%E4%B9%A0.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">内网穿透介绍学习 - 端口转发</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/" title="Meterpreter相关介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMeterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Meterpreter相关介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/16/Ettercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(ARP,ICMP,DNS)/" title="Ettercap使用教程(ARP,ICMP,DNS)"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CEttercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Ettercap使用教程(ARP,ICMP,DNS)</div></div></a></div><div><a href="/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/" title="Meterpreter相关介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMeterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Meterpreter相关介绍</div></div></a></div><div><a href="/2023/02/16/Nmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6/" title="Nmap扫描基础与进阶"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CNmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Nmap扫描基础与进阶</div></div></a></div><div><a href="/2023/02/16/SQLmap%E8%BF%87sql-libs%E9%9D%B6%E5%9C%BAPage-1%EF%BC%881-22%EF%BC%89/" title="SQLmap过sql-libs靶场Page-1（1-22）"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CSQLmap%E8%BF%87sql-libs%E9%9D%B6%E5%9C%BAPage-1%EF%BC%881-22%EF%BC%89.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">SQLmap过sql-libs靶场Page-1（1-22）</div></div></a></div><div><a href="/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/" title="ICMP协议与ICMP重定向"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ICMP协议与ICMP重定向</div></div></a></div><div><a href="/2023/02/16/ARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98/" title="ARP协议原理与ARP攻击欺骗及模拟实战"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ARP协议原理与ARP攻击欺骗及模拟实战</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/%5Cmedia%5Chead.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">特让他也让</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fomalhaut1998"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/media%5Cwechat.jpg" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://res.abeim.cn/api/qq/?qq=1693309049" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ1"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/440805873" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:1693309049@qq.com" target="_blank" title="邮箱"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>主域名：<br><a target="_blank" rel="noopener" href="https://www.trtyr.top"><b><font color="#5ea6e5">www.trtyr.top</font></b></a>&nbsp;|&nbsp;<a target="_blank" rel="noopener" href="https://trtyr.github.io"><b><font color="#5ea6e5">trtyr.github.io</font></b></a><br>子域名：<br><a target="_blank" rel="noopener" href="https://home.trtyr.top"><b><font color="#5ea6e5">主站</font></b></a><br><br><a href=""><b><font color="#5ea6e5"></font></b></a><br><a href="mailto:1693309049@qq.com">📬：<b><font color="#a591e0">1693309049@qq.com</font></b></a></center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-MSF"><span class="toc-text">一. MSF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-MSF%E4%BB%8B%E7%BB%8D"><span class="toc-text">1. MSF介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8"><span class="toc-text">MSF安装使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E5%9C%A8kali%E4%B8%AD%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="toc-text">MSF在kali中的更新</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MSF%E5%9B%BE%E5%BD%A2%E5%8C%96"><span class="toc-text">2. MSF图形化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Kali%E4%B8%8A%E9%80%9A%E8%BF%87Docker%E5%AE%89%E8%A3%85Viper-%E7%82%AB%E5%BD%A9%E8%9B%87"><span class="toc-text">在Kali上通过Docker安装Viper(炫彩蛇)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85docker"><span class="toc-text">1、安装docker</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85docker-compose"><span class="toc-text">2、安装docker-compose</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E5%88%9B%E5%BB%BA%E5%90%AF%E5%8A%A8VIPER"><span class="toc-text">3、创建启动VIPER</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-MSF%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">二. MSF的目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BB%E7%9B%AE%E5%BD%95"><span class="toc-text">1. 主目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A8%A1%E5%9D%97"><span class="toc-text">2. 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Auxiliaries"><span class="toc-text">(1) Auxiliaries</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Exploit"><span class="toc-text">(2) Exploit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%85%B6%E4%BB%96%E7%9A%84%E8%87%AA%E8%A1%8C%E6%9F%A5%E7%9C%8B%E5%B0%B1%E8%A1%8C%E4%BA%86%E3%80%82"><span class="toc-text">(3) 其他的自行查看就行了。</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 特让他也让</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'gdjBQ7XwjJzetJU0H5tLRNyI-gzGzoHsz',
+      appKey: 'Tk7aqAqax7d0mie5GjzKgSrY',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script> <script defer data-pjax src="js\cat.js"></script> <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script> <script async src="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.js"></script> <script defer src="/js/cursor.js"></script> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(media/网络协议.webp);"> <a class="categoryBar-list-link" href="categories/网络协议/">网络协议</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络工程.webp);"> <a class="categoryBar-list-link" href="categories/网络工程/">网络工程</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/Windows.webp);"> <a class="categoryBar-list-link" href="categories/网络安全/">网络安全</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/社会工程学.webp);"> <a class="categoryBar-list-link" href="categories/Windows/">Windows</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络安全.webp);"> <a class="categoryBar-list-link" href="categories/社会工程学/">社会工程学</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = '07b0bda080a14fbcb7ac576c020f73fe';
+  var gaud_map_key = '4028e9252277c3c906e3c572fa17df68';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/统计/'|| '/统计/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?Fomalhaut-Blog",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'Fomalhaut-Blog')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

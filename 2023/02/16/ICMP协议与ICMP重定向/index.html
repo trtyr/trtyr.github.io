@@ -1,0 +1,376 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>ICMP协议与ICMP重定向 | Trtyr's Blog</title><meta name="author" content="特让他也让"><meta name="copyright" content="特让他也让"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一. ICMP协议相关1. ICMP协议(1) 功能ICMP，Internet控制报文协议，用于在IP主机、路由器之间传递控制消息，控制信息指网络通不通，主机是否可达，路由是否可用等等 比如我们ping百度  能够ping通就说明，你能连上外网，百度那面的服务器没问题，你的路由器，路由表没问题，你的DNS解析没问题…… 我们随便ping一个IP  发现ping不通，由于我们上面能够ping通百度，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ICMP协议与ICMP重定向">
+<meta property="og:url" content="http://example.com/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/index.html">
+<meta property="og:site_name" content="Trtyr&#39;s Blog">
+<meta property="og:description" content="一. ICMP协议相关1. ICMP协议(1) 功能ICMP，Internet控制报文协议，用于在IP主机、路由器之间传递控制消息，控制信息指网络通不通，主机是否可达，路由是否可用等等 比如我们ping百度  能够ping通就说明，你能连上外网，百度那面的服务器没问题，你的路由器，路由表没问题，你的DNS解析没问题…… 我们随便ping一个IP  发现ping不通，由于我们上面能够ping通百度，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com//media/2023/02/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp">
+<meta property="article:published_time" content="2023-02-16T01:50:18.839Z">
+<meta property="article:modified_time" content="2023-02-16T02:37:04.191Z">
+<meta property="article:author" content="特让他也让">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com//media/2023/02/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ICMP协议与ICMP重定向',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-16 10:37:04'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="css\cat.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="/css/universe.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/%5Cmedia%5Chead.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: \media\2023\02\ICMP协议与ICMP重定向ebp"><nav id="nav"><span id="blog-info"><a href="/" title="Trtyr's Blog"><span class="site-name">Trtyr's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ICMP协议与ICMP重定向</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-16T01:50:18.839Z" title="发表于 2023-02-16 09:50:18">2023-02-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-16T02:37:04.191Z" title="更新于 2023-02-16 10:37:04">2023-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/" data-flag-title="ICMP协议与ICMP重定向"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一-ICMP协议相关"><a href="#一-ICMP协议相关" class="headerlink" title="一. ICMP协议相关"></a>一. ICMP协议相关</h2><h3 id="1-ICMP协议"><a href="#1-ICMP协议" class="headerlink" title="1. ICMP协议"></a>1. ICMP协议</h3><h4 id="1-功能"><a href="#1-功能" class="headerlink" title="(1) 功能"></a>(1) 功能</h4><p>ICMP，Internet控制报文协议，用于在IP主机、路由器之间传递控制消息，控制信息指网络通不通，主机是否可达，路由是否可用等等</p>
+<p>比如我们ping百度</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向2.webp" alt=""></p>
+<p>能够ping通就说明，你能连上外网，百度那面的服务器没问题，你的路由器，路由表没问题，你的DNS解析没问题……</p>
+<p>我们随便ping一个IP</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向3.webp" alt=""></p>
+<p>发现ping不通，由于我们上面能够ping通百度，说明我们这里应该是没有问题的，既然这次ping不通，就说明是对方的问题。这时就有两个可能，到达了目的方，没做响应；没到达目的方。</p>
+<p>我们搜一下这个IP</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向4.webp" alt=""></p>
+<p>这个是一个美国IP，我还用了VPN，这还是个外网IP，按道理是能ping通的，我们访问一下</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向5.webp" alt=""></p>
+<p>可以看见，是对面网站出了问题。</p>
+<h4 id="2-封装结构"><a href="#2-封装结构" class="headerlink" title="(2) 封装结构"></a>(2) 封装结构</h4><p>ICMP是网络层协议，封装在传输层与网络层之间，它的封装结构如下</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向1.webp" alt=""></p>
+<p>我们抓个包来看一下它的报文</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向6.webp" alt=""></p>
+<p>可以看到这个报文还是比较简单的。</p>
+<h3 id="2-ICMP报文格式"><a href="#2-ICMP报文格式" class="headerlink" title="2. ICMP报文格式"></a>2. ICMP报文格式</h3><p>这里面有两个是’Type’和’Code’，这两个通常一起来看</p>
+<p><strong>‘8，0’组合的都是请求报文</strong>，比如上面那张图展示的Type是8，Code为0</p>
+<p>我们看一下响应的Type</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向7.webp" alt=""></p>
+<p>可以看待，响应的报文中的Type就是’0’，Code为’0’，<strong>‘0，0’组合代表比较正常的应答</strong></p>
+<p>我们再看一个不正常的</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向8.webp" alt=""></p>
+<p>这个的Type是’3’，说明’目的地不可达’，Code为’3’代表端口不可达</p>
+<p><strong>‘3，3’组合就是说目标不可达，或者说端口不可达</strong></p>
+<p>还有的是 <strong>‘11，0’，代表’生存时间为0’，说白了就是超时了</strong>，比如下图</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向9.webp" alt=""></p>
+<p>还有的是 <strong>‘3，1’，代表目标不可达，或者说是主机不可达</strong>，如下图</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向10.webp" alt=""></p>
+<p>除此之外，还有</p>
+<ul>
+<li>‘5，0’代表网络重定向</li>
+<li>‘5，1’代表主机重定向</li>
+</ul>
+<p>当Type等于13时，代表是时间戳请求，等于14时代表是时间戳应答</p>
+<h2 id="二-ICMP重定向"><a href="#二-ICMP重定向" class="headerlink" title="二. ICMP重定向"></a>二. ICMP重定向</h2><h3 id="1-ICMP重定向简介"><a href="#1-ICMP重定向简介" class="headerlink" title="1. ICMP重定向简介"></a>1. ICMP重定向简介</h3><h4 id="1-正常情况"><a href="#1-正常情况" class="headerlink" title="(1) 正常情况"></a>(1) 正常情况</h4><p>现在有这样的一个网络</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向11.webp" alt=""></p>
+<p>我们现在想要主机访问 192.168.2.1，你们觉得能不能访问到？</p>
+<p>很明显访问不到，因为’192.168.1.10’访问外网的时候，会将自己的数据交给网关，即’192.168.1.254’那台R2路由器，而R2连的是’192.168.3.1’，没连’192.168.2.1’，路由表里就没有’192.168.2.1’的条目，所以主机是访问不了’192.168.2.1’的。</p>
+<p>那这个时候怎么办，我们在R2上面配置一条路由，’192.168.1.253’对应’192.168.3.1’，这样数据传递就成了这样。</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向12.webp" alt=""></p>
+<p>主机192.168.1.10访问192.168.3.1，数据交给网关R2，然后R2看路由表，发现192.168.3.1对应192.168.1.253，然后把数据交给R1，然后再交给192.168.3.1。</p>
+<p>我们这里是通过R1把数据交给了R2，这个过程有点麻烦，于是就有了重定向。</p>
+<h4 id="2-重定向"><a href="#2-重定向" class="headerlink" title="(2) 重定向"></a>(2) 重定向</h4><p>重定向是这样的</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向23.webp" alt=""></p>
+<p>这张图，我们知道R1无法发送数据给 192.168.3.1 ，于是我们在R1设置了一条路由，将数据指向R2</p>
+<p>假如 192.168.1.10 向 192.168.3.1 发送4个ICMP包，第一次的时候会发给自己的网关R1，但是R1无法发送给 192.168.3.1。</p>
+<p>这个时候R1会看路由表，发现R2能发，就会发送一个重定向的包给主机。</p>
+<p>主机接收后，以后的数据就会直接发给R2.</p>
+<p>就是说第一次的包发给R1，后面三次的包是直接发给R2的。</p>
+<p>所以ICMP重定向就是：<strong>在某些特定情况下，路由器检测到主机使用非优化路由时候，会向主机发送一个ICMP重定向报文，是主机的路由改变</strong></p>
+<p>如果有一个攻击方将主机的路由给重定向了，就可能导致主机无法通信</p>
+<p>比如这样</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向13.webp" alt=""></p>
+<p>攻击方把主机路由重定向到192.168.1.200，这样就实现了一个ICMP重定向攻击。当我们把它重定向到其他的地方，就会造成无法访问的情况。</p>
+<h3 id="2-实验模拟"><a href="#2-实验模拟" class="headerlink" title="2. 实验模拟"></a>2. 实验模拟</h3><h4 id="1-环境配置"><a href="#1-环境配置" class="headerlink" title="(1) 环境配置"></a>(1) 环境配置</h4><p>在GNS3中配置这样的一个网络</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向14.webp" alt=""></p>
+<p>然后我们用虚拟机来模拟一台主机，GNS3可以连虚拟机</p>
+<p>设置为主机模式</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向15.webp" alt=""></p>
+<p>进入系统后配置IP</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向16.webp" alt=""></p>
+<h4 id="2-实验开始"><a href="#2-实验开始" class="headerlink" title="(2) 实验开始"></a>(2) 实验开始</h4><p>我们在主机上ping一下网关和另一台路由器，都是一个网段的，应该都能ping通</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向17.webp" alt=""></p>
+<p>我们ping一下3.1，应该是ping不通的。</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向18.webp" alt=""></p>
+<p>我们开启抓包</p>
+<p>现在我们想要让主机ping通3.1怎么办呢？我们可以直接在R1上配置一条路由，使得通过R1，转发给R2再转发给R2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conf t</span><br><span class="line">ip route 192.168.3.0 255.255.255.0 192.168.1.253</span><br></pre></td></tr></table></figure>
+<p>我们再用主机ping一下3.1</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向19.webp" alt=""></p>
+<p>可以看到现在ping通了。</p>
+<p>不过这里第一次请求超时了。</p>
+<h4 id="3-观察数据包"><a href="#3-观察数据包" class="headerlink" title="(3) 观察数据包"></a>(3) 观察数据包</h4><p>我们看一下抓的包</p>
+<h5 id="1、链路1（主机到交换机）"><a href="#1、链路1（主机到交换机）" class="headerlink" title="1、链路1（主机到交换机）"></a>1、链路1（主机到交换机）</h5><p>我们先看主机到交换机的这条链路</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向20.webp" alt=""></p>
+<p>就是这条链路</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向21.webp" alt=""></p>
+<p>我们最开始的时候,ICMP请求失败，然后返回了一个’5，0’的响应，这个上面讲了，代表网络重定向</p>
+<p>我们看下一个请求</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向25.webp" alt=""></p>
+<p>可以看到返回’8，0’请求成功。</p>
+<h5 id="2、链路2（交换机到R1）"><a href="#2、链路2（交换机到R1）" class="headerlink" title="2、链路2（交换机到R1）"></a>2、链路2（交换机到R1）</h5><p>我们看一下左面的那条链路</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向26.webp" alt=""></p>
+<p>就是这条，我们看一下抓包</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向27.webp" alt=""></p>
+<p>这里就两个，一开始 192.68.1.10 请求 192.168.3.1，没通，然后它发现自己的路由表中有一个和 192.168.3.1 相关的路由条目，做了一个重定向的响应，然后返回给了主机。</p>
+<p>之后根据路由表找到 192.168.3.1 对应的是 192.168.1.253，然后R1马上广播。</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向28.webp" alt=""></p>
+<p>“谁的IP地址是 192.168.1.253，把你的MAC地址发过来。””</p>
+<p>然后就转过去了。</p>
+<h5 id="3、链路3（交换机和R2）"><a href="#3、链路3（交换机和R2）" class="headerlink" title="3、链路3（交换机和R2）"></a>3、链路3（交换机和R2）</h5><p>我们看一下右面的那条链路</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向29.webp" alt=""></p>
+<p>我们分析数据包</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向22.webp" alt=""></p>
+<p>这个就简单了，正常的ICMP。数据就不经过R1，直接发给R2了。</p>
+<h4 id="4-看主机路由表"><a href="#4-看主机路由表" class="headerlink" title="(4) 看主机路由表"></a>(4) 看主机路由表</h4><p>我们看一下主机的路由表</p>
+<p><img src="\media\2023\02\ICMP协议与ICMP重定向24.webp" alt=""></p>
+<p>发现了一个问题，我们这个路由表还是 192.168.1.254 对应 192.168.1.10。</p>
+<p>所以重定向的路由时不会写道主机的路由表中，只有当路由器发送了一个重定向报文后，后续的请求才会进行重定向。</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>ICMP协议与ICMP重定向</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://example.com/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/">http://example.com/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>特让他也让</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a></div><div class="post_share"><div class="social-share" data-image="/%5Cmedia%5C2023%5C02%5CICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/16/IP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/" title="IP地址方面知识详解"><img class="cover" src="/%5Cmedia%5C2022%5C12%5CIP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">IP地址方面知识详解</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/16/ARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98/" title="ARP协议原理与ARP攻击欺骗及模拟实战"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ARP协议原理与ARP攻击欺骗及模拟实战</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/16/ARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98/" title="ARP协议原理与ARP攻击欺骗及模拟实战"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ARP协议原理与ARP攻击欺骗及模拟实战</div></div></a></div><div><a href="/2023/02/16/IP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%A0%BC%E5%BC%8F/" title="IP数据包的格式"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CIP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%A0%BC%E5%BC%8F.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">IP数据包的格式</div></div></a></div><div><a href="/2023/02/16/Ettercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(ARP,ICMP,DNS)/" title="Ettercap使用教程(ARP,ICMP,DNS)"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CEttercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Ettercap使用教程(ARP,ICMP,DNS)</div></div></a></div><div><a href="/2023/02/16/IP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/" title="IP地址方面知识详解"><img class="cover" src="/%5Cmedia%5C2022%5C12%5CIP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">IP地址方面知识详解</div></div></a></div><div><a href="/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/" title="MSF渗透测试框架介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">MSF渗透测试框架介绍</div></div></a></div><div><a href="/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/" title="Meterpreter相关介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMeterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Meterpreter相关介绍</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/%5Cmedia%5Chead.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">特让他也让</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fomalhaut1998"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/media%5Cwechat.jpg" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://res.abeim.cn/api/qq/?qq=1693309049" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ1"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/440805873" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:1693309049@qq.com" target="_blank" title="邮箱"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>主域名：<br><a target="_blank" rel="noopener" href="https://www.trtyr.top"><b><font color="#5ea6e5">www.trtyr.top</font></b></a>&nbsp;|&nbsp;<a target="_blank" rel="noopener" href="https://trtyr.github.io"><b><font color="#5ea6e5">trtyr.github.io</font></b></a><br>子域名：<br><a target="_blank" rel="noopener" href="https://home.trtyr.top"><b><font color="#5ea6e5">主站</font></b></a><br><br><a href=""><b><font color="#5ea6e5"></font></b></a><br><a href="mailto:1693309049@qq.com">📬：<b><font color="#a591e0">1693309049@qq.com</font></b></a></center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-ICMP%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3"><span class="toc-text">一. ICMP协议相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ICMP%E5%8D%8F%E8%AE%AE"><span class="toc-text">1. ICMP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8A%9F%E8%83%BD"><span class="toc-text">(1) 功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%B0%81%E8%A3%85%E7%BB%93%E6%9E%84"><span class="toc-text">(2) 封装结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ICMP%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">2. ICMP报文格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-ICMP%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">二. ICMP重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ICMP%E9%87%8D%E5%AE%9A%E5%90%91%E7%AE%80%E4%BB%8B"><span class="toc-text">1. ICMP重定向简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%AD%A3%E5%B8%B8%E6%83%85%E5%86%B5"><span class="toc-text">(1) 正常情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">(2) 重定向</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%9E%E9%AA%8C%E6%A8%A1%E6%8B%9F"><span class="toc-text">2. 实验模拟</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">(1) 环境配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%9E%E9%AA%8C%E5%BC%80%E5%A7%8B"><span class="toc-text">(2) 实验开始</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A7%82%E5%AF%9F%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-text">(3) 观察数据包</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E9%93%BE%E8%B7%AF1%EF%BC%88%E4%B8%BB%E6%9C%BA%E5%88%B0%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%89"><span class="toc-text">1、链路1（主机到交换机）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E9%93%BE%E8%B7%AF2%EF%BC%88%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%88%B0R1%EF%BC%89"><span class="toc-text">2、链路2（交换机到R1）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E9%93%BE%E8%B7%AF3%EF%BC%88%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%92%8CR2%EF%BC%89"><span class="toc-text">3、链路3（交换机和R2）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E7%9C%8B%E4%B8%BB%E6%9C%BA%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-text">(4) 看主机路由表</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 特让他也让</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'gdjBQ7XwjJzetJU0H5tLRNyI-gzGzoHsz',
+      appKey: 'Tk7aqAqax7d0mie5GjzKgSrY',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script> <script defer data-pjax src="js\cat.js"></script> <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script> <script async src="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.js"></script> <script defer src="/js/cursor.js"></script> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(media/网络协议.webp);"> <a class="categoryBar-list-link" href="categories/网络协议/">网络协议</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络工程.webp);"> <a class="categoryBar-list-link" href="categories/网络工程/">网络工程</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/Windows.webp);"> <a class="categoryBar-list-link" href="categories/网络安全/">网络安全</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/社会工程学.webp);"> <a class="categoryBar-list-link" href="categories/Windows/">Windows</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络安全.webp);"> <a class="categoryBar-list-link" href="categories/社会工程学/">社会工程学</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = '07b0bda080a14fbcb7ac576c020f73fe';
+  var gaud_map_key = '4028e9252277c3c906e3c572fa17df68';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/统计/'|| '/统计/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?Fomalhaut-Blog",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'Fomalhaut-Blog')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

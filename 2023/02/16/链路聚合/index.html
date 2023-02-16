@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>链路聚合 | Trtyr's Blog</title><meta name="author" content="特让他也让"><meta name="copyright" content="特让他也让"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我们看这个网络  所有的数据都会通过中间那条链路传递到三层交换机，这条链路的压力会很大。 有没有可能，我们再加一条链路，去分摊数据转发压力。  这时候就需要用到链路聚合了。 可能有人说，我直接链条链路全是trunk链路不就好了嘛，如果这样设置的话，它只是在两条链路中随机的进行传递，不能起到分摊压力的功能。 我们做了链路聚合后，从物理上，看得是两条链路，但从逻辑上，它俩是一条链路，实现负载 一. 链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链路聚合">
+<meta property="og:url" content="http://example.com/2023/02/16/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88/index.html">
+<meta property="og:site_name" content="Trtyr&#39;s Blog">
+<meta property="og:description" content="我们看这个网络  所有的数据都会通过中间那条链路传递到三层交换机，这条链路的压力会很大。 有没有可能，我们再加一条链路，去分摊数据转发压力。  这时候就需要用到链路聚合了。 可能有人说，我直接链条链路全是trunk链路不就好了嘛，如果这样设置的话，它只是在两条链路中随机的进行传递，不能起到分摊压力的功能。 我们做了链路聚合后，从物理上，看得是两条链路，但从逻辑上，它俩是一条链路，实现负载 一. 链">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com//media/2023/01/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88.webp">
+<meta property="article:published_time" content="2023-02-16T02:15:18.416Z">
+<meta property="article:modified_time" content="2023-02-16T02:33:38.195Z">
+<meta property="article:author" content="特让他也让">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com//media/2023/01/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/16/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '链路聚合',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-16 10:33:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="css\cat.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="/css/universe.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/%5Cmedia%5Chead.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/%5Cmedia%5C2023%5C01%5C%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Trtyr's Blog"><span class="site-name">Trtyr's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">链路聚合</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-16T02:15:18.416Z" title="发表于 2023-02-16 10:15:18">2023-02-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-16T02:33:38.195Z" title="更新于 2023-02-16 10:33:38">2023-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/">网络工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2023/02/16/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88/" data-flag-title="链路聚合"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>我们看这个网络</p>
+<p><img src="\media\2023\01\链路聚合相关知识1.webp" alt=""></p>
+<p>所有的数据都会通过中间那条链路传递到三层交换机，这条链路的压力会很大。</p>
+<p>有没有可能，我们再加一条链路，去分摊数据转发压力。</p>
+<p><img src="\media\2023\01\链路聚合相关知识2.webp" alt=""></p>
+<p>这时候就需要用到链路聚合了。</p>
+<p>可能有人说，我直接链条链路全是trunk链路不就好了嘛，如果这样设置的话，它只是在两条链路中随机的进行传递，不能起到分摊压力的功能。</p>
+<p>我们做了链路聚合后，从物理上，看得是两条链路，但从逻辑上，它俩是一条链路，实现负载</p>
+<h2 id="一-链路聚合"><a href="#一-链路聚合" class="headerlink" title="一. 链路聚合"></a>一. 链路聚合</h2><h3 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h3><p>以太网链路聚合<strong>Eth-Trunk</strong>简称<strong>链路聚合</strong>，它通过将多条以太网物理链路捆绑在一起成为一条逻辑链路，从而实现增加链路带宽的目的。同时，这些捆绑在一起的链路通过相互间的动态备份，可以有效地提高链路的可靠性。</p>
+<h3 id="2-目的"><a href="#2-目的" class="headerlink" title="2. 目的"></a>2. 目的</h3><p>随着网络规模不断扩大，用户对骨干链路的带宽和可靠性提出越来越高的要求。在传统技术中，常用更换高速率的设备的方式来增加带宽，但这种方案需要付出高额的费用，而且不够灵活。</p>
+<p>采用链路聚合技术可以在不进行硬件升级的条件下，通过将多个物理接口捆绑为一个逻辑接口，达到增加链路带宽的目的。在实现增大带宽目的的同时，链路聚合采用备份链路的机制，可以有效的提高设备之间链路的可靠性。</p>
+<h3 id="3-优势"><a href="#3-优势" class="headerlink" title="3. 优势"></a>3. 优势</h3><p>链路聚合技术主要有以下三个优势：</p>
+<p><strong>1、增加带宽</strong></p>
+<p>链路聚合接口的最大带宽可以达到各成员接口带宽之和。</p>
+<p><strong>2、提高可靠性</strong></p>
+<p>当某条活动链路出现故障时，流量可以切换到其他可用的成员链路上，从而提高链路聚合接口的可靠性。</p>
+<p><strong>3、负载分担</strong></p>
+<p>在一个链路聚合组内，可以实现在各成员活动链路上的负载分担。</p>
+<h3 id="4-LACP"><a href="#4-LACP" class="headerlink" title="4. LACP"></a>4. LACP</h3><p>我们配置思科设备上的链路聚合用的是LACP协议</p>
+<p>基于IEEE802.3ad标准的LACP（链路汇聚控制协议）是一种实现链路动态汇聚的协议。</p>
+<p>LACP协议通过LACPDU（链路汇聚控制协议数据单元）与对端交互信息。</p>
+<p>启用某端口的LACP协议后，该端口将通过发送LACPDU向对端通告自己的系统优先级、系统MAC地址、端口优先级、端口号和操作Key。</p>
+<p>对端接收到这些信息后，将这些信息与其它端口所保存的信息比较以选择能够汇聚的端口，从而双方可以对端口加入或退出某个动态汇聚组达成一致。</p>
+<h2 id="二-链路聚合实现方式"><a href="#二-链路聚合实现方式" class="headerlink" title="二. 链路聚合实现方式"></a>二. 链路聚合实现方式</h2><h3 id="1-思科设备（PAgP）"><a href="#1-思科设备（PAgP）" class="headerlink" title="1. 思科设备（PAgP）"></a>1. 思科设备（PAgP）</h3><p>在思科设备上有一个PAgP</p>
+<p>PAgP（Port Aggregration Protocol 端口聚合协议）是Cisco私有协议，可以自动创建以太通道链路。使用PAgP配置以太通道链路时，以太通道可用的端口之间就会发送PAgP的数据包来协商建立通道。</p>
+<h3 id="2-标准的（LACP）"><a href="#2-标准的（LACP）" class="headerlink" title="2. 标准的（LACP）"></a>2. 标准的（LACP）</h3><p>基于802.3ad的LACP</p>
+<p><strong>注：LACP最初定义为 IEEE 802.3ad。但是，现在LACP在针对局域网和城域网较新的 IEEE 802.1AX标准中进行定义。</strong></p>
+<p>LACP（Link Aggregration Control Protocol）是属于IEEE规范（802.3ad），允许将多个物理端口捆绑形成单个逻辑通道。它的功能类似于思科的以太通道协议PAgP。</p>
+<h3 id="3-链路聚合模式"><a href="#3-链路聚合模式" class="headerlink" title="3. 链路聚合模式"></a>3. 链路聚合模式</h3><p>我们根据模式来决定，是使用思科私有的PAgP还是使用标准的LACP</p>
+<p><strong>PAgP的3中模式：</strong></p>
+<ul>
+<li>On（手动配置模式）：这种模式会强制接口不使用PAgP来建立通道。那在“On”模式下配置的接口必然不会交换PAgP数据包。</li>
+<li>PAgP desirable（主动协商模式）：接口会通过发送PAgP数据包来<strong>主动</strong>发起与其他接口之间的协商</li>
+<li>PAgP auto（被动协商模式）：接口会<strong>响应</strong>它<strong>收到</strong>的PAgP数据包，但不会主动发起PAgP协商。 <strong>LACP的3中模式</strong></li>
+<li>On（手动配置模式）：这中模式会强制接口不使用LACP来建立通道。“On”模式下配置的接口不会交换LACP数据包。</li>
+<li>LACP active：该模式让端口处于主动协商模式。</li>
+<li>LACP passive：该模式让端口处于被动协商模式。</li>
+</ul>
+<h2 id="三-基于IEEE的LACP"><a href="#三-基于IEEE的LACP" class="headerlink" title="三. 基于IEEE的LACP"></a>三. 基于IEEE的LACP</h2><h3 id="1-交互信息"><a href="#1-交互信息" class="headerlink" title="1. 交互信息"></a>1. 交互信息</h3><p>了解一下就行</p>
+<p><img src="\media\2023\01\链路聚合相关知识3.webp" alt=""></p>
+<ul>
+<li>本端和对端系统优先级</li>
+<li>本端和对端系统ID</li>
+<li>本端和对端的端口操作key</li>
+<li>本端和对端的端口优先级</li>
+<li>本端和对端的端口ID</li>
+<li>本端和对端的端口状态</li>
+</ul>
+<p>就是说，只有当对端和本端的接口数目一样，上面提到的什么优先级，ID，状态，key等东西也都需要一样，这时候才能实现链路聚合</p>
+<h3 id="2-LACP模式"><a href="#2-LACP模式" class="headerlink" title="2. LACP模式"></a>2. LACP模式</h3><p>按照聚合方式的不同，链路聚合可以分为两种模式：静态聚合模式和动态聚合模式。</p>
+<h4 id="1-静态汇聚"><a href="#1-静态汇聚" class="headerlink" title="(1)静态汇聚"></a>(1)静态汇聚</h4><p>我们一般用的也是静态汇聚</p>
+<p>静态LACP汇聚由<strong>用户手工配置</strong>，不允许系统自动添加或删除汇聚组中的端口。</p>
+<p>汇聚组中必须至少包含一个端口，当汇聚组只有一个端口时，只能通过删除汇聚组的方式将该端口从汇聚组中删除。</p>
+<h4 id="2-动态汇聚"><a href="#2-动态汇聚" class="headerlink" title="(2)动态汇聚"></a>(2)动态汇聚</h4><p>动态LACP汇聚是一种<strong>系统自动创建/删除的汇聚</strong>，不允许用户增加或删除动态LACP汇聚中的成员端口。</p>
+<p>只有速率和双工属性相同、连接到同一个设备、有相同基本配置的端口才能被动态汇聚在一起。即使只有一个端口也可以创建动态汇聚，此时为单端口汇聚。</p>
+<p>动态汇聚中，端口的LACP协议处于使能状态。</p>
+<h4 id="3-举例子"><a href="#3-举例子" class="headerlink" title="(3) 举例子"></a>(3) 举例子</h4><p><img src="\media\2023\01\链路聚合相关知识4.webp" alt=""></p>
+<p>我们现在已经将红色和黑色两条链路给聚合成了一条链路，现在在我们又加了一个橙色的链路</p>
+<p><img src="\media\2023\01\链路聚合相关知识5.webp" alt=""></p>
+<p>我们现在想要把橙色的链路加到绿色的链路组中</p>
+<p>如果我们选择动态汇聚，加不了；静态添加可以</p>
+<p><strong>注意：汇聚的是端口</strong></p>
+<h2 id="四-配置LACP"><a href="#四-配置LACP" class="headerlink" title="四. 配置LACP"></a>四. 配置LACP</h2><h3 id="1-指定汇聚协议"><a href="#1-指定汇聚协议" class="headerlink" title="1. 指定汇聚协议"></a>1. 指定汇聚协议</h3><p>先需要指定汇聚协议，在这之前，先需要进入端口（如果只有一个端口，就直接进入一个端口，如果多个端口，就进入范围端口）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int 端口</span><br><span class="line">channel-protocol lacp  // 指定端口协议为lacp</span><br></pre></td></tr></table></figure>
+<h3 id="2-指定聚合模式"><a href="#2-指定聚合模式" class="headerlink" title="2. 指定聚合模式"></a>2. 指定聚合模式</h3><p>我们用的是LACP，所以就不用管PAgP了，直接指定为主动模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">channel-group 1 mode active  </span><br><span class="line">// 静态汇聚有一个组号，所以我们这里定义了一个组，组号为1。这个组的模式是主动模式</span><br><span class="line">// 这个组号就是我们聚合链路的编号，这里可以理解为创建了一个编号为1的聚合链路，模式为主动模式</span><br></pre></td></tr></table></figure>
+<h3 id="3-将聚合通道配置为trunk"><a href="#3-将聚合通道配置为trunk" class="headerlink" title="3. 将聚合通道配置为trunk"></a>3. 将聚合通道配置为trunk</h3><p>我们还需要设置一下trunk</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int prot-channel 1  // 进入这个聚合链路</span><br><span class="line">switchport mode trunk  // 直接设置为trunk</span><br></pre></td></tr></table></figure>
+<h2 id="五-实验"><a href="#五-实验" class="headerlink" title="五. 实验"></a>五. 实验</h2><h3 id="1-设置聚合链路"><a href="#1-设置聚合链路" class="headerlink" title="1. 设置聚合链路"></a>1. 设置聚合链路</h3><p>我们把两个交换机连上，不配置链路聚合</p>
+<p><img src="\media\2023\01\链路聚合相关知识6.webp" alt=""></p>
+<p>可以看到，F0/1 - F0/1这条链路已经连通了，但是F0/2有一端没通。</p>
+<p>这是因为，没通的那条链路呗当做的备用链路，当F0/1的那条链路断了，就会使用F0/2的那条</p>
+<p>这里交换机的F0/2接口就叫做阻塞接口（BLK），他是不会转发数据的，我们可以这么查一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show spanning-tree  // 看生成树数据，下篇文章会讲</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\链路聚合相关知识7.webp" alt=""></p>
+<p>我们现在配置一下LACP，先搞交换机0的F0/1接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">int f0/1</span><br><span class="line">channel-protocol lacp  // 设置f0/1端口协议为lacp</span><br><span class="line">channel-group 1 mode active  // 上面讲了，这个其实没啥</span><br><span class="line">int f0/2  // 我们现在要把f0/2接口加进来</span><br><span class="line">channel-protocol lacp  // 和刚才操作一样</span><br><span class="line">channel-group 1 mode active</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\链路聚合相关知识8.webp" alt=""></p>
+<p>我们刚才搞完了交换机0，现在交换机1也要弄一下，刚才是一个一个接口弄的，这次一次性全弄一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">int range f0/1-2</span><br><span class="line">channel-protocol lacp</span><br><span class="line">channel-group 1 mode active </span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\链路聚合相关知识9.webp" alt=""></p>
+<p>我们现在看一下两个交换机的接口</p>
+<p><img src="\media\2023\01\链路聚合相关知识10.webp" alt=""></p>
+<p>可以看到和之前的不一样了，全变绿色了，说明成功了</p>
+<p>我们现在可以看一下生成树了</p>
+<p><img src="\media\2023\01\链路聚合相关知识13.webp" alt=""></p>
+<p>可以看到，我们最开始的两个接口没了，整合到了一个链路里头</p>
+<h3 id="2-不同VLAN怎么传"><a href="#2-不同VLAN怎么传" class="headerlink" title="2. 不同VLAN怎么传"></a>2. 不同VLAN怎么传</h3><p>现在加几个主机</p>
+<p><img src="\media\2023\01\链路聚合相关知识11.webp" alt=""></p>
+<p>我们现在这个网络只能传递同VLAN的数据，现在VLAN1发数据在聚合链路通过，VLAN2也发数据，也从聚合链路通过，那么这个数据怎么通过呢？</p>
+<p>聚合链路其实可以做到负载均衡的效果，就是说VLAN 1从F0/1走，VLAN 2从F0/2走。但是前提是链路得trunk。</p>
+<p>如果想要配置trunk的话，我们直接进入通道设置就行了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">int port-channel 1  // 进入编号为1的通道</span><br><span class="line">switchport mode trunk  // 直接常规设置就行了</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\链路聚合相关知识12.webp" alt=""></p>
+<p>然后对面的交换机也设置一下。</p>
+<p>这样所有的接口trunk了，进而链路为trunk。</p>
+<h3 id="3-通信测试"><a href="#3-通信测试" class="headerlink" title="3. 通信测试"></a>3. 通信测试</h3><p>我们把设备都连上，简单ping一下。这里就不搞VLAN了，没啥演示意义，自己搞搞就行了。</p>
+<p>我们配置一下IP就行，一个是192.68.10.1，一个是192.168.10.2</p>
+<p><img src="\media\2023\01\链路聚合相关知识17.webp" alt=""></p>
+<h2 id="六-配以太网通道"><a href="#六-配以太网通道" class="headerlink" title="六. 配以太网通道"></a>六. 配以太网通道</h2><p>还有一种更简单的方式，直接配以太网通道。</p>
+<p>还是这样的网络</p>
+<p><img src="\media\2023\01\链路聚合相关知识14.webp" alt=""></p>
+<p>我们直接把交换机5的F0/1和F0/2两个接口配置为以太网通道。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">int range f0/1-2</span><br><span class="line">channel-group 5 mode on</span><br></pre></td></tr></table></figure>
+<p><img src="\media\2023\01\链路聚合相关知识15.webp" alt=""></p>
+<p>我们再配置一下交换机6的接口，然后再看一下生成树。</p>
+<p><img src="\media\2023\01\链路聚合相关知识16.webp" alt=""></p>
+<p>可以看到也创建成功了。</p>
+<p>想要通信的话，记得配一下trunk，操作和上面一样，就是聚合链路的编号不同。</p>
+<p>不过要注意一下，<strong>以太网通道最多能捆绑8条链路</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>链路聚合</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://example.com/2023/02/16/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88/">http://example.com/2023/02/16/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>特让他也让</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a></div><div class="post_share"><div class="social-share" data-image="/%5Cmedia%5C2023%5C01%5C%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/16/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE/" title="生成树协议STP及其配置"><img class="cover" src="/%5Cmedia%5C2023%5C01%5C%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">生成树协议STP及其配置</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/16/%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/" title="单臂路由和三层交换机"><img class="cover" src="/%5Cmedia%5C2023%5C01%5C%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">单臂路由和三层交换机</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/" title="ICMP协议与ICMP重定向"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ICMP协议与ICMP重定向</div></div></a></div><div><a href="/2023/02/16/ARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98/" title="ARP协议原理与ARP攻击欺骗及模拟实战"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ARP协议原理与ARP攻击欺骗及模拟实战</div></div></a></div><div><a href="/2023/02/16/IP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%A0%BC%E5%BC%8F/" title="IP数据包的格式"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CIP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%A0%BC%E5%BC%8F.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">IP数据包的格式</div></div></a></div><div><a href="/2023/02/16/Ettercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(ARP,ICMP,DNS)/" title="Ettercap使用教程(ARP,ICMP,DNS)"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CEttercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Ettercap使用教程(ARP,ICMP,DNS)</div></div></a></div><div><a href="/2023/02/16/IP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/" title="IP地址方面知识详解"><img class="cover" src="/%5Cmedia%5C2022%5C12%5CIP%E5%9C%B0%E5%9D%80%E6%96%B9%E9%9D%A2%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">IP地址方面知识详解</div></div></a></div><div><a href="/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/" title="MSF渗透测试框架介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">MSF渗透测试框架介绍</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/%5Cmedia%5Chead.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">特让他也让</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fomalhaut1998"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/media%5Cwechat.jpg" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://res.abeim.cn/api/qq/?qq=1693309049" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ1"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/440805873" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:1693309049@qq.com" target="_blank" title="邮箱"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>主域名：<br><a target="_blank" rel="noopener" href="https://www.trtyr.top"><b><font color="#5ea6e5">www.trtyr.top</font></b></a>&nbsp;|&nbsp;<a target="_blank" rel="noopener" href="https://trtyr.github.io"><b><font color="#5ea6e5">trtyr.github.io</font></b></a><br>子域名：<br><a target="_blank" rel="noopener" href="https://home.trtyr.top"><b><font color="#5ea6e5">主站</font></b></a><br><br><a href=""><b><font color="#5ea6e5"></font></b></a><br><a href="mailto:1693309049@qq.com">📬：<b><font color="#a591e0">1693309049@qq.com</font></b></a></center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88"><span class="toc-text">一. 链路聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89"><span class="toc-text">1. 定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%9B%AE%E7%9A%84"><span class="toc-text">2. 目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BC%98%E5%8A%BF"><span class="toc-text">3. 优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-LACP"><span class="toc-text">4. LACP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-text">二. 链路聚合实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%80%9D%E7%A7%91%E8%AE%BE%E5%A4%87%EF%BC%88PAgP%EF%BC%89"><span class="toc-text">1. 思科设备（PAgP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A0%87%E5%87%86%E7%9A%84%EF%BC%88LACP%EF%BC%89"><span class="toc-text">2. 标准的（LACP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="toc-text">3. 链路聚合模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E5%9F%BA%E4%BA%8EIEEE%E7%9A%84LACP"><span class="toc-text">三. 基于IEEE的LACP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BA%A4%E4%BA%92%E4%BF%A1%E6%81%AF"><span class="toc-text">1. 交互信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-LACP%E6%A8%A1%E5%BC%8F"><span class="toc-text">2. LACP模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%9D%99%E6%80%81%E6%B1%87%E8%81%9A"><span class="toc-text">(1)静态汇聚</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E6%B1%87%E8%81%9A"><span class="toc-text">(2)动态汇聚</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%BE%E4%BE%8B%E5%AD%90"><span class="toc-text">(3) 举例子</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E9%85%8D%E7%BD%AELACP"><span class="toc-text">四. 配置LACP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8C%87%E5%AE%9A%E6%B1%87%E8%81%9A%E5%8D%8F%E8%AE%AE"><span class="toc-text">1. 指定汇聚协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%87%E5%AE%9A%E8%81%9A%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="toc-text">2. 指定聚合模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B0%86%E8%81%9A%E5%90%88%E9%80%9A%E9%81%93%E9%85%8D%E7%BD%AE%E4%B8%BAtrunk"><span class="toc-text">3. 将聚合通道配置为trunk</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-%E5%AE%9E%E9%AA%8C"><span class="toc-text">五. 实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE%E8%81%9A%E5%90%88%E9%93%BE%E8%B7%AF"><span class="toc-text">1. 设置聚合链路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%8D%E5%90%8CVLAN%E6%80%8E%E4%B9%88%E4%BC%A0"><span class="toc-text">2. 不同VLAN怎么传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%80%9A%E4%BF%A1%E6%B5%8B%E8%AF%95"><span class="toc-text">3. 通信测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-%E9%85%8D%E4%BB%A5%E5%A4%AA%E7%BD%91%E9%80%9A%E9%81%93"><span class="toc-text">六. 配以太网通道</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 特让他也让</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'gdjBQ7XwjJzetJU0H5tLRNyI-gzGzoHsz',
+      appKey: 'Tk7aqAqax7d0mie5GjzKgSrY',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script> <script defer data-pjax src="js\cat.js"></script> <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script> <script async src="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.js"></script> <script defer src="/js/cursor.js"></script> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(media/网络协议.webp);"> <a class="categoryBar-list-link" href="categories/网络协议/">网络协议</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络工程.webp);"> <a class="categoryBar-list-link" href="categories/网络工程/">网络工程</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/Windows.webp);"> <a class="categoryBar-list-link" href="categories/网络安全/">网络安全</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/社会工程学.webp);"> <a class="categoryBar-list-link" href="categories/Windows/">Windows</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络安全.webp);"> <a class="categoryBar-list-link" href="categories/社会工程学/">社会工程学</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = '07b0bda080a14fbcb7ac576c020f73fe';
+  var gaud_map_key = '4028e9252277c3c906e3c572fa17df68';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/统计/'|| '/统计/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?Fomalhaut-Blog",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'Fomalhaut-Blog')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

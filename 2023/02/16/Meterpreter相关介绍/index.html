@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Meterpreter相关介绍 | Trtyr's Blog</title><meta name="author" content="特让他也让"><meta name="copyright" content="特让他也让"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一. Meterpreter是什么当我们利用MSF生成了一个木马，并且在靶机上运行后，我们的MSF会进入如下的一个界面  我们进入一个meterpreter的命令行。 我们建立了一个木马链接，这在MSF中叫做一个session，第一个建立的连接就是 session 1；如果你又建立了一个连接或者漏洞利用进程，它就是session 2. Meterpreter是Metasploit框架中的一个利器，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Meterpreter相关介绍">
+<meta property="og:url" content="http://example.com/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Trtyr&#39;s Blog">
+<meta property="og:description" content="一. Meterpreter是什么当我们利用MSF生成了一个木马，并且在靶机上运行后，我们的MSF会进入如下的一个界面  我们进入一个meterpreter的命令行。 我们建立了一个木马链接，这在MSF中叫做一个session，第一个建立的连接就是 session 1；如果你又建立了一个连接或者漏洞利用进程，它就是session 2. Meterpreter是Metasploit框架中的一个利器，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com//media/2023/02/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp">
+<meta property="article:published_time" content="2023-02-16T02:52:46.441Z">
+<meta property="article:modified_time" content="2023-02-16T02:54:03.625Z">
+<meta property="article:author" content="特让他也让">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com//media/2023/02/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Meterpreter相关介绍',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-16 10:54:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="css\cat.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="/css/universe.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/%5Cmedia%5Chead.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/%5Cmedia%5C2023%5C02%5CMeterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Trtyr's Blog"><span class="site-name">Trtyr's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tuzi">                   </use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Meterpreter相关介绍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-16T02:52:46.441Z" title="发表于 2023-02-16 10:52:46">2023-02-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-16T02:54:03.625Z" title="更新于 2023-02-16 10:54:03">2023-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/" data-flag-title="Meterpreter相关介绍"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一-Meterpreter是什么"><a href="#一-Meterpreter是什么" class="headerlink" title="一. Meterpreter是什么"></a>一. Meterpreter是什么</h2><p>当我们利用MSF生成了一个木马，并且在靶机上运行后，我们的MSF会进入如下的一个界面</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍1.webp" alt=""></p>
+<p>我们进入一个meterpreter的命令行。</p>
+<p>我们建立了一个木马链接，这在MSF中叫做一个session，第一个建立的连接就是 session 1；如果你又建立了一个连接或者漏洞利用进程，它就是session 2.</p>
+<p>Meterpreter是Metasploit框架中的一个利器，作为漏洞溢出后的攻击载荷使用。</p>
+<p>攻击荷在触发漏洞后会返回-个由我们控制的通道，可用于远程执行命令!</p>
+<p>Metasploit提供了各个主流平台的Meterpreter版本，包括Windows、Linux，同时支持x86、x64平台，另外，Meterpreter还提供了基于PHP和Java语言的实现。</p>
+<p>Meterpreter的工作模式是纯内存的，好处是启动隐藏，很难被杀毒软件监测到。不需要访问目标主机磁盘，所以也没什么入侵的痕迹。</p>
+<p>除上述外，Meterpreter还支持Ruby脚本形式的扩展。所以Ruby语言还很有必要了解下。</p>
+<h2 id="二-Meterpreter中常用的反弹类型"><a href="#二-Meterpreter中常用的反弹类型" class="headerlink" title="二. Meterpreter中常用的反弹类型"></a>二. Meterpreter中常用的反弹类型</h2><ol>
+<li>reverse tcp</li>
+</ol>
+<p>这是一个基于TCP的反向接反shell,使用起来很稳定</p>
+<ol>
+<li>web_delivery</li>
+</ol>
+<p>web_delivery模块可通过python、php、powershell、regsvr32等进行反弹shell。</p>
+<p>还有其他的，但是我没用过……</p>
+<h2 id="三-Meterpreter常用命令"><a href="#三-Meterpreter常用命令" class="headerlink" title="三. Meterpreter常用命令"></a>三. Meterpreter常用命令</h2><h3 id="1-常用参数"><a href="#1-常用参数" class="headerlink" title="1. 常用参数"></a>1. 常用参数</h3><p>我们可以通过<code>help</code>来查看常用命令</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍2-1024x775.webp" alt=""></p>
+<h3 id="2-常用参数演示"><a href="#2-常用参数演示" class="headerlink" title="2. 常用参数演示"></a>2. 常用参数演示</h3><p>这里就演示几个，其他的自己手动研究研究</p>
+<p><strong>1. backgroud</strong></p>
+<p>我们输入<code>backgroud</code>可以将当前session切到后台</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍3.webp" alt=""></p>
+<p>这样当前的 session 1 就切到后台了</p>
+<ol>
+<li>sessions</li>
+</ol>
+<p>我们如果在模块命令中，我们可以输入<code>sessions</code>可以查看当前session</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍4-1024x174.webp" alt=""></p>
+<p>我们可以通过<code>sessions -i id</code>来选择一个session来进入</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍5.webp" alt=""></p>
+<p>这样就进到了session 1</p>
+<ol>
+<li>bglist</li>
+</ol>
+<p>bglist可以查看当前运行的session</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍8.webp" alt=""></p>
+<p>当前没有运行的session</p>
+<ol>
+<li>bgkill</li>
+</ol>
+<p>我们先看sessions有几个任务</p>
+<p>有这几个任务</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍6-1024x189.webp" alt=""></p>
+<p>我们现在想要杀死ID为2的session</p>
+<p>我们进入sessions 2，然后输入 bgkill 2</p>
+<p><img src="\media\2023\02\Meterpreter相关介绍7.webp" alt=""></p>
+<p>啊，这两个session没运行……</p>
+<h3 id="3-针对性常用命令"><a href="#3-针对性常用命令" class="headerlink" title="3. 针对性常用命令"></a>3. 针对性常用命令</h3><h4 id="1-针对安卓的一些命令"><a href="#1-针对安卓的一些命令" class="headerlink" title="(1) 针对安卓的一些命令"></a>(1) 针对安卓的一些命令</h4><p>当我们能够进入安卓手机的meterpreter后，我们可以输入一些命令来获取手机的一些信息</p>
+<ul>
+<li>获取手机通讯录： dump_contacts</li>
+<li>获取手机短信记录： dump_sms</li>
+<li>控制手机发短信： send_sms -d 15330252525 -t “hello” //控制手机向15330252525发出hello</li>
+<li>获取手机GPS定位信息： geolocate</li>
+<li>获取手机Wi-Fi定位信息： wlan_geolocate</li>
+<li>控制手机录音： record_mic -d  5</li>
+<li>获取手机相机设备： webcam_list</li>
+<li>控制手机拍照 ： webcam_snap</li>
+<li>直播手机摄像头： webcam_stream</li>
+</ul>
+<h4 id="2-针对Windows的一些命令"><a href="#2-针对Windows的一些命令" class="headerlink" title="(2) 针对Windows的一些命令"></a>(2) 针对Windows的一些命令</h4><ul>
+<li>查看进程：ps</li>
+<li>查看当前进程号：getpid</li>
+<li>查看系统信息：sysinfo</li>
+<li>查看目标机是否为虚拟机：run post/windows/gather/checkvm</li>
+<li>查看完整网络设置：route</li>
+<li>查看当前权限：getuid</li>
+<li>自动提权：getsystem</li>
+<li>关闭杀毒软件：run post/windows/manage/killav</li>
+<li>启动远程桌面协议：run post/windows/manage/enable_rdp</li>
+<li>列举当前登录的用户：run post/windows/gather/enum_logged_on_users</li>
+<li>查看当前应用程序：run post/windows/gather/enum_applications</li>
+<li>抓取目标机的屏幕截图：load espia；screengrab</li>
+<li>获取相机设备：webcam_list</li>
+<li>控制拍照 ：webcam_snap</li>
+<li>直播摄像头：webcam_stream</li>
+<li>控制录音：record_mic</li>
+<li>查看当前处于目标机的那个目录：pwd</li>
+<li>查看当前目录：getlwd</li>
+<li>导出当前用户密码哈希：run hashdump<br>用户名：SID：LM哈希：NTLM哈希:::<br>也可以使用下面这个命令导出，权限更高：run windows/gather/smart_hashdump</li>
+<li>抓取自动登录的用户名和密码：run windows/gather/credentials/windows_autologin</li>
+<li>直接获取明文密码（注意这个功能需要获取系统权限  获取系统权限需要输入getsystem）</li>
+<li>首选终端输入  load kiwi    加载kiwi</li>
+<li>creds_all：列举所有凭据</li>
+<li>creds_kerberos：列举所有kerberos凭据</li>
+<li>creds_msv：列举所有msv凭据</li>
+<li>creds_ssp：列举所有ssp凭据</li>
+<li>creds_tspkg：列举所有tspkg凭据</li>
+<li>creds_wdigest：列举所有wdigest凭据</li>
+<li>dcsync：通过DCSync检索用户帐户信息</li>
+<li>dcsync_ntlm：通过DCSync检索用户帐户NTLM散列、SID和RID</li>
+<li>golden_ticket_create：创建黄金票据</li>
+<li>kerberos_ticket_list：列举kerberos票据</li>
+<li>kerberos_ticket_purge：清除kerberos票据</li>
+<li>kerberos_ticket_use：使用kerberos票据</li>
+<li>kiwi_cmd：执行mimikatz的命令，后面接mimikatz.exe的命令</li>
+<li>lsa_dump_sam：dump出lsa的SAM</li>
+<li>lsa_dump_secrets：dump出lsa的密文</li>
+<li>password_change：修改密码</li>
+<li>wifi_list：列出当前用户的wifi配置文件</li>
+<li>wifi_list_shared：列出共享wifi配置文件/编码</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>Meterpreter相关介绍</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://example.com/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/">http://example.com/2023/02/16/Meterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>特让他也让</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a></div><div class="post_share"><div class="social-share" data-image="/%5Cmedia%5C2023%5C02%5CMeterpreter%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/" title="MSF渗透测试框架介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MSF渗透测试框架介绍</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/16/Nmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6/" title="Nmap扫描基础与进阶"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CNmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Nmap扫描基础与进阶</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/16/Ettercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(ARP,ICMP,DNS)/" title="Ettercap使用教程(ARP,ICMP,DNS)"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CEttercap%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Ettercap使用教程(ARP,ICMP,DNS)</div></div></a></div><div><a href="/2023/02/16/MSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/" title="MSF渗透测试框架介绍"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CMSF%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">MSF渗透测试框架介绍</div></div></a></div><div><a href="/2023/02/16/Nmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6/" title="Nmap扫描基础与进阶"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CNmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Nmap扫描基础与进阶</div></div></a></div><div><a href="/2023/02/16/SQLmap%E8%BF%87sql-libs%E9%9D%B6%E5%9C%BAPage-1%EF%BC%881-22%EF%BC%89/" title="SQLmap过sql-libs靶场Page-1（1-22）"><img class="cover" src="/%5Cmedia%5C2023%5C01%5CSQLmap%E8%BF%87sql-libs%E9%9D%B6%E5%9C%BAPage-1%EF%BC%881-22%EF%BC%89.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">SQLmap过sql-libs靶场Page-1（1-22）</div></div></a></div><div><a href="/2023/02/16/ICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91/" title="ICMP协议与ICMP重定向"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CICMP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E9%87%8D%E5%AE%9A%E5%90%91.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ICMP协议与ICMP重定向</div></div></a></div><div><a href="/2023/02/16/ARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98/" title="ARP协议原理与ARP攻击欺骗及模拟实战"><img class="cover" src="/%5Cmedia%5C2023%5C02%5CARP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8EARP%E6%94%BB%E5%87%BB%E6%AC%BA%E9%AA%97%E5%8F%8A%E6%A8%A1%E6%8B%9F%E5%AE%9E%E6%88%98.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">ARP协议原理与ARP攻击欺骗及模拟实战</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/%5Cmedia%5Chead.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">特让他也让</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fomalhaut1998"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/media%5Cwechat.jpg" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://res.abeim.cn/api/qq/?qq=1693309049" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ1"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/440805873" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:1693309049@qq.com" target="_blank" title="邮箱"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>主域名：<br><a target="_blank" rel="noopener" href="https://www.trtyr.top"><b><font color="#5ea6e5">www.trtyr.top</font></b></a>&nbsp;|&nbsp;<a target="_blank" rel="noopener" href="https://trtyr.github.io"><b><font color="#5ea6e5">trtyr.github.io</font></b></a><br>子域名：<br><a target="_blank" rel="noopener" href="https://home.trtyr.top"><b><font color="#5ea6e5">主站</font></b></a><br><br><a href=""><b><font color="#5ea6e5"></font></b></a><br><a href="mailto:1693309049@qq.com">📬：<b><font color="#a591e0">1693309049@qq.com</font></b></a></center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-Meterpreter%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">一. Meterpreter是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-Meterpreter%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8F%8D%E5%BC%B9%E7%B1%BB%E5%9E%8B"><span class="toc-text">二. Meterpreter中常用的反弹类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-Meterpreter%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">三. Meterpreter常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-text">1. 常用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0%E6%BC%94%E7%A4%BA"><span class="toc-text">2. 常用参数演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%92%88%E5%AF%B9%E6%80%A7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">3. 针对性常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%92%88%E5%AF%B9%E5%AE%89%E5%8D%93%E7%9A%84%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="toc-text">(1) 针对安卓的一些命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%92%88%E5%AF%B9Windows%E7%9A%84%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="toc-text">(2) 针对Windows的一些命令</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 特让他也让</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'gdjBQ7XwjJzetJU0H5tLRNyI-gzGzoHsz',
+      appKey: 'Tk7aqAqax7d0mie5GjzKgSrY',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script> <script defer data-pjax src="js\cat.js"></script> <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script> <script async src="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.js"></script> <script defer src="/js/cursor.js"></script> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(media/网络协议.webp);"> <a class="categoryBar-list-link" href="categories/网络协议/">网络协议</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络工程.webp);"> <a class="categoryBar-list-link" href="categories/网络工程/">网络工程</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/Windows.webp);"> <a class="categoryBar-list-link" href="categories/网络安全/">网络安全</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/社会工程学.webp);"> <a class="categoryBar-list-link" href="categories/Windows/">Windows</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络安全.webp);"> <a class="categoryBar-list-link" href="categories/社会工程学/">社会工程学</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = '07b0bda080a14fbcb7ac576c020f73fe';
+  var gaud_map_key = '4028e9252277c3c906e3c572fa17df68';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/统计/'|| '/统计/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?Fomalhaut-Blog",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'Fomalhaut-Blog')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
