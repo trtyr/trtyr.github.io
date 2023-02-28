@@ -1,0 +1,430 @@
+<!-- - var pageType = is_post() ? 'post' : 'page'--><!DOCTYPE html><html lang="zh-CN" data-theme="light"><script>((function() {var callbacks = [],timeLimit = 50,open = false;setInterval(loop, 1);return {addListener: function(fn) {callbacks.push(fn);},cancleListenr: function(fn) {callbacks = callbacks.filter(function(v) {return v !== fn;});}}
+function loop() {var startTime = new Date();debugger;if (new Date() - startTime > timeLimit) {if (!open) {callbacks.forEach(function(fn) {fn.call(null);});}open = true;window.stop();alert('你真坏，请关闭控制台！');document.body.innerHTML = "";} else {open = false;}}})()).addListener(function() {window.location.reload();});</script><script>function toDevtools(){
+  let num = 0; 
+  let devtools = new Date();
+  devtools.toString = function() {
+    num++;
+    if (num > 1) {
+        alert('你真坏，请关闭控制台！')
+        window.location.href = "about:blank"
+        blast();
+    }
+  }
+  console.log('', devtools);
+}
+toDevtools();
+</script><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>生成树协议STP及其配置 | Trtyr's Blog</title><meta name="author" content="特让他也让"><meta name="copyright" content="特让他也让"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一. 引言现在有这样的一个网络  我们可以看到，交换机通过各自的协商，完成了端口开启，其中有一个端口是橙色的，说明它没打开，我们来看看这个端口。 我们这里直接查看生成树 1show spanning-tree  可以看到，这个F0&#x2F;1接口显示的是BLK，即接口开启但不转发数据，为阻塞端口。 那如果我们没有这个BLK，即所有接口都是通的，加上设备之后就会出现一个神奇的情况。  数据从PC1到PC0，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生成树协议STP及其配置">
+<meta property="og:url" content="https://www.trtyr.top/2023/02/16/27/index.html">
+<meta property="og:site_name" content="Trtyr&#39;s Blog">
+<meta property="og:description" content="一. 引言现在有这样的一个网络  我们可以看到，交换机通过各自的协商，完成了端口开启，其中有一个端口是橙色的，说明它没打开，我们来看看这个端口。 我们这里直接查看生成树 1show spanning-tree  可以看到，这个F0&#x2F;1接口显示的是BLK，即接口开启但不转发数据，为阻塞端口。 那如果我们没有这个BLK，即所有接口都是通的，加上设备之后就会出现一个神奇的情况。  数据从PC1到PC0，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.trtyr.top//media/2023/01/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE.webp">
+<meta property="article:published_time" content="2023-02-16T02:16:02.906Z">
+<meta property="article:modified_time" content="2023-02-16T02:34:39.575Z">
+<meta property="article:author" content="特让他也让">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.trtyr.top//media/2023/01/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE.webp"><link rel="shortcut icon" href="/%5Cmedia%5Chead.webp"><link rel="canonical" href="https://www.trtyr.top/2023/02/16/27/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '生成树协议STP及其配置',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-16 10:34:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><span id="fps"></span> <script src="https://npm.elemecdn.com/echarts@4.9.0/map/js/china.js"></script> <script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script> <link rel="stylesheet" href="https://cdn1.tianli0.top/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"> <link rel="stylesheet" href="\css\emoji.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="css\cat.css"> <link rel="stylesheet" href="\css\progress_bar.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.css" media="defer" onload="this.media='all'"> <link rel="stylesheet" href="/css/universe.css"> <link rel="stylesheet" href="\css\custom.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="/%5Ccss%5Cprogress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5Chead.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shujutongji"></use></svg><span> 统计</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/statistics/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tangguo">                   </use></svg><span> 文章统计</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/census/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_xiaoya">                   </use></svg><span> 博客统计</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/%5Cmedia%5C2023%5C01%5C%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Trtyr's Blog"><span class="site-name">Trtyr's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-xiangsufeng_fangzi"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_fangzi"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-wenzhang"></use></svg><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_wenjianjia">                   </use></svg><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-diaopai-01">                   </use></svg><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-kele"></use></svg><span> 社交</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/comments/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsufeng_xiaoxi">                   </use></svg><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-zhongguojie">                   </use></svg><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-xiangsu-fangwuloudong"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu-fangwuloudong"></use></svg><span> 关于</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover hide" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shujutongji"></use></svg><span> 统计</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/statistics/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_tangguo">                   </use></svg><span> 文章统计</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/census/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-xiangsu_xiaoya">                   </use></svg><span> 博客统计</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">生成树协议STP及其配置</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-16T02:16:02.906Z" title="发表于 2023-02-16 10:16:02">2023-02-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-16T02:34:39.575Z" title="更新于 2023-02-16 10:34:39">2023-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/">网络工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="生成树协议STP及其配置"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一-引言"><a href="#一-引言" class="headerlink" title="一. 引言"></a>一. 引言</h2><p>现在有这样的一个网络</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置1.webp" alt=""></p>
+<p>我们可以看到，交换机通过各自的协商，完成了端口开启，其中有一个端口是橙色的，说明它没打开，我们来看看这个端口。</p>
+<p>我们这里直接查看生成树</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show spanning-tree</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置2.webp" alt=""></p>
+<p>可以看到，这个F0/1接口显示的是BLK，即接口开启但不转发数据，为阻塞端口。</p>
+<p>那如果我们没有这个BLK，即所有接口都是通的，加上设备之后就会出现一个神奇的情况。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置3.webp" alt=""></p>
+<p>数据从PC1到PC0，经过交换机1的时候进行广播，从F0/1和F0/2接口（现在假设所有接口都是通的）出去，数据就会发到交换机3和交换机2，然后这俩再广播一下，<br>交换机2会将数据发到PC0，但是它还会从另外两个接口发出去，再到交换机3，然后再广播，到交换机1，再广播，到交换机2，然后……。</p>
+<p>这样就会形成回环，数据还在传，但早都到PC0了。<strong>这就产生了没用的流量，形成网络风暴</strong></p>
+<p>有人会问，那我直接不用这种环状网络得了呗。或者说不知道环状网络的用处。我们举个例子。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置4.webp" alt=""></p>
+<p>这个网络是一个经典的<strong>冗余链路</strong>，其中三个交换机组成了环状网络，路由器会阻断广播所以成不了环状网络</p>
+<p>有数据从二层交换机出来，会随机走1号或者2号链路，然后走4号或者5号链路。</p>
+<p>这种网络的意义就是当有设备/链路出现问题，可以走其他的链路。</p>
+<p>我们回到最开始的那个网络，想一下，为什么是交换机1的F0/1接口为BLK呢？为啥不是其他的交换机？为啥不是F0/2接口？</p>
+<h2 id="二-生成树协议（STP）概念"><a href="#二-生成树协议（STP）概念" class="headerlink" title="二. 生成树协议（STP）概念"></a>二. 生成树协议（STP）概念</h2><p>生成树协议，缩写STP。</p>
+<p>他是工作在OSI模型中的第二层，即数据链路层的一个协议，所以他是在交换机上面的，路由器没有。</p>
+<p>它的目的是为了防止交换网络冗余链路的时候产生网络风暴。</p>
+<p>它是从逻辑方面，阻塞某一个接口，来达到一个树形的网络。</p>
+<p>还是最开始的网络</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置5.webp" alt=""></p>
+<p>交换机1的F0/1被STP堵塞，所以实际上这个网络是这样的。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置6.webp" alt=""></p>
+<p>真正的网络其实就是红框内的网络，这就是一个经典的树状网络。</p>
+<h2 id="三-STP工作原理"><a href="#三-STP工作原理" class="headerlink" title="三. STP工作原理"></a>三. STP工作原理</h2><h3 id="1-工作原理"><a href="#1-工作原理" class="headerlink" title="1. 工作原理"></a>1. 工作原理</h3><p>它的工作原理就是来进行选举。</p>
+<p>刚才的那个问题，为什么是交换机1的F0/1接口为BLK呢？为啥不是其他的交换机？为啥不是F0/2接口？</p>
+<p>它是通过某一种算法，算出来应该堵塞交换机1的F0/1接口</p>
+<h3 id="2-算法简单过程"><a href="#2-算法简单过程" class="headerlink" title="2. 算法简单过程"></a>2. 算法简单过程</h3><p>就是选举。</p>
+<h4 id="1-选择根网桥"><a href="#1-选择根网桥" class="headerlink" title="(1) 选择根网桥"></a>(1) 选择根网桥</h4><p>我们既然最终是形成树状网络，树只有一个根，网桥就是交换机，根网桥就是根交换机。</p>
+<p>选择根网桥有规范，就是比较网桥ID，网桥ID较小的为根交换机。</p>
+<p>网桥ID分两个部分，网桥的优先级加上网桥的MAC地址。</p>
+<p><strong>先选优先级，优先级小的为根网桥；如果优先级一样，比较MAC地址，MAC地址小的就是根网桥</strong></p>
+<p>比较网桥MAC简单，一个是11-11-11-11-11-11，一个是22-00-00-00-00-00，11的那个MAC地址就小</p>
+<p>网桥优先级，有一个默认值是32768，可以由管理员进行更改，更改的时候注意需要设置为4096的倍数</p>
+<p>根网桥的端口是不可能被阻塞的。</p>
+<h4 id="2-选择根端口"><a href="#2-选择根端口" class="headerlink" title="(2) 选择根端口"></a>(2) 选择根端口</h4><p>首先找根路径成本少的，也就是说其他交换机到根交换机的路径成本最少</p>
+<p>然后就是找直连网桥的ID小的</p>
+<p>还有一个就是找端口ID小的（端口的ID默认是128）</p>
+<h4 id="3-选择指定端口"><a href="#3-选择指定端口" class="headerlink" title="(3) 选择指定端口"></a>(3) 选择指定端口</h4><p>根网桥的所有的端口全是指定端口</p>
+<p>需要在每个网段上面选择一个指定端口，我们这个网段说白了是每条线路。</p>
+<p>非根网桥选指定端口和选择根端口条件一样。</p>
+<h4 id="4-没有被选中的端口就是阻塞端口"><a href="#4-没有被选中的端口就是阻塞端口" class="headerlink" title="(4) 没有被选中的端口就是阻塞端口"></a>(4) 没有被选中的端口就是阻塞端口</h4><p>上面选完之后，剩的那个接口就是阻塞端口。</p>
+<h3 id="3-算法大白话"><a href="#3-算法大白话" class="headerlink" title="3. 算法大白话"></a>3. 算法大白话</h3><p>可能上面的那些你看不懂记不住，没有关系，看这个就行了。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置7.webp" alt=""></p>
+<p>我们先是找根网桥，我们不用找，直接管理员设置，我们让SW1为根网桥，直接设置优先级就行了，不用管MAC地址，优先级设置为4096，这样SW1就是根网桥。</p>
+<p>然后根网桥上面的端口全是指定端口，我们用DP来表示。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置8.webp" alt=""></p>
+<p>这样，链路1就有了一个DP端口，链路2也有一个DP端口，然后还得让链路3有一个指定端口，那么AB端口怎么选，根据上面说的那些</p>
+<p>根路径成本最小，AB两个端口的路径成本是一样的，A最短路径是A接口 - SW2 - C接口 - SW1，B也差不多是这么走的，这俩一样。除非这俩带宽不一样，带宽小的成本就高，大的带宽成本就小。</p>
+<p>下一步是网桥ID，太麻烦，直接设置A为指定端口得了。指定A端口的网桥优先级为8192，B端口的网桥优先级还是默认的32768，所以A接口是DP。</p>
+<p>现在根网桥，指定端口整完了，还剩个根端口。C端口和D端口的路径成本最小，这俩就是RP（根端口），那么B端口就是BLK（阻塞端口）</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置9.webp" alt=""></p>
+<p>所以我们刚才只整了SW1的优先级和A端口的优先级，那么BLK一定就是B端口了</p>
+<p>我们刚才没用到网桥ID，我这里写一个展示一下这玩意是啥：32768000C29881125。可以看到就是优先级+MAC地址……</p>
+<h3 id="4-奇怪的场景"><a href="#4-奇怪的场景" class="headerlink" title="4. 奇怪的场景"></a>4. 奇怪的场景</h3><p>我们上一个文章讲了聚合链路，我们现在不聚合</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置10.webp" alt=""></p>
+<p>这样，是不是环形网络？</p>
+<p>这个也是环形网络，假如其中一个是BLK接口，那么它是怎么弄的。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置11.webp" alt=""></p>
+<p>如果图中和红色的接口是BLK的话，那么交换机B就是根网桥，B上面的两个端口就是指定端口，还剩一个接口就是根端口</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置12.webp" alt=""></p>
+<p>那么为啥那个是RP，路径成本一样，网桥ID一样，就剩了一个端口ID了，说明它的端口ID最小。</p>
+<p>这个端口ID有一个priority（优先级），我们查看STP就能看到，我随便看一个</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置13.webp" alt=""></p>
+<p>这就是端口的优先级，优先级大的端口ID大</p>
+<h2 id="三-STP的其他概念"><a href="#三-STP的其他概念" class="headerlink" title="三. STP的其他概念"></a>三. STP的其他概念</h2><h3 id="STP的收敛"><a href="#STP的收敛" class="headerlink" title="STP的收敛"></a>STP的收敛</h3><p>收敛意思是整个网络达到一直的情况，收敛的过程会产生的交换机的几种状态</p>
+<p>交换机端口的五种状态：</p>
+<ul>
+<li>禁用：down</li>
+<li>阻塞：BLK，不能发送数据，也不能进行MAC地址学习，只会去侦听网络的STP报文（BPDU，叫做拓扑变更通告）</li>
+<li>侦听：可以收发BPDU，但不会进行MAC地址学习</li>
+<li>学习：可以手法BPDU，并且可以进行MAC地址学习，不会转发数据</li>
+<li>转发：正常转发业务数据</li>
+</ul>
+<p>计时器</p>
+<ul>
+<li><strong>Hello Timer</strong>：STP交换机会发送BPDU的时间间隔。当网络拓扑稳定之后，该计时器的修改只有在根桥修改才有效。根桥会在之后发出的BPDU中填充适当的字段以向其他非根桥传递该计时器修改信息。但当拓扑变化之后，TCIN BPDU的发送不受这个计时器的管理</li>
+<li><strong>Forwarding Delay Timer（转发延迟）</strong>：指一个端Listening和Learning的各自时间，默认为15秒，即Listening状态持续15秒，随后Learning状态再持续15秒。这两个状态下的端口会处Blocking状态，这是STP用于避免临时环路的关键</li>
+<li><strong>Max Age（最大老化延迟）</strong>：端口会根据接收到的BPDU存储所接收到的最好的四个信息(根桥BID、累计根路径开销、发送者BID和发送端口PID)。每次接收到合适的BPDU，端口都会启动这个Max Age计时器。超过这个Max Age时间端口接收不到合适BPDU，就会认为网络直径过大。这个时间默认为20秒</li>
+</ul>
+<h2 id="四-STP的配置"><a href="#四-STP的配置" class="headerlink" title="四. STP的配置"></a>四. STP的配置</h2><p>不知道在看的各位有没有注意到一个问题，交换机上会有VLAN的划分，那么当划分了广播域，是不是就阻挡了广播，所以不同的VLAN下有不同的STP</p>
+<h3 id="1-单生成树"><a href="#1-单生成树" class="headerlink" title="1. 单生成树"></a>1. 单生成树</h3><p>所谓单生成树，就是说交换机上只有一个VLAN</p>
+<p>现在有这么一个网络，不要在意这个是路由器，把路由功能关了就是交换机</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置14.webp" alt=""></p>
+<p>我们现在想要指定SW2为根网桥，先看一下它现在是不是，要不然就没意思了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show spanning-tree bri  // 命令和思科不太一样</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置15.webp" alt=""></p>
+<p>说明SW2不是根网桥，那么现在就指定SW2为根网桥。然后再指定SW3的f0/3接口为BLK</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conf t  // GNS3默认打开就是特权模式，不用en</span><br><span class="line">no ip routing  // 因为我是拿路由器做交换机的，需要关路由功能</span><br></pre></td></tr></table></figure>
+<p>默认情况下，都是有STP的，我们只需要整一下优先级就行了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree vlan 1 priority 4069  // 调整当前交换机的VLAN 1优先级为4096</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置16.webp" alt=""></p>
+<p>可以看见，现在本地网桥和根网桥MAC就是一样的了，现在SW2就是根网桥了。</p>
+<p>我们想要设置SW3的f0/3为BLK，那我们就改一下SW1的优先级就行了嘛。</p>
+<p>因为SW2为根网桥，设置SW1的优先级，就可以将SW1的两个接口变成指定接口，然后SW3的f0/3根据路程成本来看，肯定是BLK。</p>
+<p>如果看不懂，再上面“算法大白话”中讲过。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conf t</span><br><span class="line">spanning-tree vlan 1 priority 8192  </span><br><span class="line">// 这个优先级一定要比根网桥的大。因为要是一样的话，如果SW1的MAC地址小，那么SW1成根网桥了。</span><br></pre></td></tr></table></figure>
+<p>这样F0/3就是BLK，我们现在看一下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置17.webp" alt=""></p>
+<p>这个配置就没有啥技术含量</p>
+<h3 id="2-多生成树"><a href="#2-多生成树" class="headerlink" title="2. 多生成树"></a>2. 多生成树</h3><p>所谓多生成树，就是说交换机上有多个VLAN</p>
+<p>有这样的一个网络</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置18.webp" alt=""></p>
+<p>我们先设置一下VLAN和trunk</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">交换机0：</span><br><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">vlan 10</span><br><span class="line">vlan 20</span><br><span class="line">exit</span><br><span class="line">int f0/3</span><br><span class="line">sw acc vlan 10</span><br><span class="line">int f0/4</span><br><span class="line">sw acc vlan 20</span><br><span class="line">exit</span><br><span class="line">int range f0/1-2</span><br><span class="line">sw mode trunk</span><br><span class="line"></span><br><span class="line">交换机1：</span><br><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">vlan 10</span><br><span class="line">exit</span><br><span class="line">int f0/3</span><br><span class="line">sw acc vlan 10</span><br><span class="line">int range f0/1-2</span><br><span class="line">sw mode trunk</span><br><span class="line"></span><br><span class="line">交换机2：</span><br><span class="line">en</span><br><span class="line">conf t</span><br><span class="line">vlan 20</span><br><span class="line">exit</span><br><span class="line">int f0/3</span><br><span class="line">sw acc vlan 20</span><br><span class="line">int range f0/1-2</span><br><span class="line">sw mode trunk</span><br></pre></td></tr></table></figure>
+<p>现在全是trunk了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置19.webp" alt=""></p>
+<p>从图上看，好像没有BLK，但是实际上还是有的。</p>
+<p>我们看一下交换机0的生成树</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置20.webp" alt=""></p>
+<p>可以看到，交换机0的VLAN 10中的F0/2是BLK</p>
+<p>我们现在想要把交换机1配置成VLAN 10的根网桥，把交换机2配置成VLAN 20的根网桥。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">交换机1：</span><br><span class="line">conf t</span><br><span class="line">spanning-tree vlan 10 priority 4096  // 这样交换机1就是VLAN 10根网桥了</span><br><span class="line"></span><br><span class="line">交换机2：</span><br><span class="line">conf t</span><br><span class="line">spanning-tree vlan 20 priority 4096  // 这样交换机2就是VLAN 20根网桥了</span><br></pre></td></tr></table></figure>
+<p>那么他们对应的BLK是啥，我们现在还不知道</p>
+<p>我们直接看生成树就行了。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置21-1024x589.webp" alt=""></p>
+<p>但是VLAN 20没找到，应该是在交换机1上，但是我们交换机1没有VLAN 20</p>
+<p>我们在交换机1上创建一个VLAN 20，然后在重新运行一下spanning-tree vlan 20 priority 4096，然后等一会再看看。</p>
+<p>我的结果是，交换机1上没有VLAN 20的BLK，交换机0上有了。每个人结果有可能不一样。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="\media\2023\01\生成树协议STP及其配置22.webp" alt=""></p>
+<p>所以交换机0上的F0/2接口，又是VLAN 10的BLK，又是VLAN 20的BLK。</p>
+<h3 id="3-其他配置"><a href="#3-其他配置" class="headerlink" title="3. 其他配置"></a>3. 其他配置</h3><p>这里的一般用不到，了解一下就行</p>
+<h4 id="1-直接设置设备为根网桥"><a href="#1-直接设置设备为根网桥" class="headerlink" title="(1) 直接设置设备为根网桥"></a>(1) 直接设置设备为根网桥</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree vlan 1 root primary  // 设置当前设备为VLAN 1根网桥</span><br></pre></td></tr></table></figure>
+<p>因为默认的是32768，如果我们通过这条命令来指定根网桥，他就会让当前设备在32798的基础上，降4096，这样他的优先级就比其他的大。</p>
+<h4 id="2-修改端口成本"><a href="#2-修改端口成本" class="headerlink" title="(2) 修改端口成本"></a>(2) 修改端口成本</h4><p>端口成本由带宽来决定。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree vlan 1 cost 19  // 百兆带宽路径成本是19，千兆带宽路径成本是1</span><br></pre></td></tr></table></figure>
+<h4 id="3-修改端口优先级"><a href="#3-修改端口优先级" class="headerlink" title="(3) 修改端口优先级"></a>(3) 修改端口优先级</h4><p>本来端口优先级是128，我们可以修改为2的次方数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree vlan 1 port-priority 64  // 修改为64</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>生成树协议STP及其配置</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://www.trtyr.top/2023/02/16/27/">https://www.trtyr.top/2023/02/16/27/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>特让他也让</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-02-16</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a></div><div class="post_share"><div class="social-share" data-image="/%5Cmedia%5C2023%5C01%5C%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/%5Cmedia%5C%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/%5Cmedia%5C%E6%94%AF%E4%BB%98%E5%AE%9D.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C%E6%94%AF%E4%BB%98%E5%AE%9D.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/16/25/" title="热备份路由选择协议HSRP"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C02%5C%E7%83%AD%E5%A4%87%E4%BB%BD%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AEHSRP.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">热备份路由选择协议HSRP</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/16/21/" title="链路聚合"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C01%5C%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">链路聚合</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/16/1/" title="单臂路由和三层交换机"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C01%5C%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1%E5%92%8C%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">单臂路由和三层交换机</div></div></a></div><div><a href="/2023/02/16/10/" title="Nmap扫描基础与进阶"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C01%5CNmap%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">Nmap扫描基础与进阶</div></div></a></div><div><a href="/2023/02/16/11/" title="sql-libs靶场Page-1(1-22)教程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C01%5CSQL-Libs%E9%9D%B6%E5%9C%BAPage-11-22%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">sql-libs靶场Page-1(1-22)教程</div></div></a></div><div><a href="/2023/02/16/12/" title="sql-libs靶场Page-2(21-38)教程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C02%5Csql-libs%E9%9D%B6%E5%9C%BAPage-221-38%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">sql-libs靶场Page-2(21-38)教程</div></div></a></div><div><a href="/2023/02/16/13/" title="sql-libs靶场Page-3(38-53)教程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C02%5Csql-libs%E9%9D%B6%E5%9C%BAPage-338-53%E6%95%99%E7%A8%8B.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">sql-libs靶场Page-3(38-53)教程</div></div></a></div><div><a href="/2023/02/16/14/" title="SQLmap过sql-libs靶场Page-1（1-22）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5C2023%5C01%5CSQLmap%E8%BF%87sql-libs%E9%9D%B6%E5%9C%BAPage-1%EF%BC%881-22%EF%BC%89.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-16</div><div class="title">SQLmap过sql-libs靶场Page-1（1-22）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="author_top is-center"><div class="card-info-avatar"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cmedia%5Chead.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-status-box"><div class="author-status"><g-emoji class="g-emoji" alias="palm_tree" fallback-src="https://lskypro.acozycotage.net/LightPicture/2022/12/fe1dc0402e623096.jpg">🐟</g-emoji><span>摸鱼中</span></div></div></div><div class="author-info__name">特让他也让</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fomalhaut1998"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/media%5Cwechat.jpg" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://res.abeim.cn/api/qq/?qq=1693309049" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ1"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/440805873" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:1693309049@qq.com" target="_blank" title="邮箱"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>主域名：<br><a href="https://www.trtyr.top"><b><font color="#5ea6e5">www.trtyr.top</font></b></a>&nbsp;|&nbsp;<a target="_blank" rel="noopener" href="https://trtyr.github.io"><b><font color="#5ea6e5">trtyr.github.io</font></b></a><br>子域名：<br><a target="_blank" rel="noopener" href="https://home.trtyr.top"><b><font color="#5ea6e5">主站</font></b></a><br><br><a href=""><b><font color="#5ea6e5"></font></b></a><br><a href="mailto:1693309049@qq.com">📬：<b><font color="#a591e0">1693309049@qq.com</font></b></a></center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE%EF%BC%88STP%EF%BC%89%E6%A6%82%E5%BF%B5"><span class="toc-text">二. 生成树协议（STP）概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-STP%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">三. STP工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">1. 工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%AE%97%E6%B3%95%E7%AE%80%E5%8D%95%E8%BF%87%E7%A8%8B"><span class="toc-text">2. 算法简单过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%80%89%E6%8B%A9%E6%A0%B9%E7%BD%91%E6%A1%A5"><span class="toc-text">(1) 选择根网桥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E6%A0%B9%E7%AB%AF%E5%8F%A3"><span class="toc-text">(2) 选择根端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%80%89%E6%8B%A9%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3"><span class="toc-text">(3) 选择指定端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%B2%A1%E6%9C%89%E8%A2%AB%E9%80%89%E4%B8%AD%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%B0%B1%E6%98%AF%E9%98%BB%E5%A1%9E%E7%AB%AF%E5%8F%A3"><span class="toc-text">(4) 没有被选中的端口就是阻塞端口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%97%E6%B3%95%E5%A4%A7%E7%99%BD%E8%AF%9D"><span class="toc-text">3. 算法大白话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A5%87%E6%80%AA%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">4. 奇怪的场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-STP%E7%9A%84%E5%85%B6%E4%BB%96%E6%A6%82%E5%BF%B5"><span class="toc-text">三. STP的其他概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#STP%E7%9A%84%E6%94%B6%E6%95%9B"><span class="toc-text">STP的收敛</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-STP%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">四. STP的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%95%E7%94%9F%E6%88%90%E6%A0%91"><span class="toc-text">1. 单生成树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%9A%E7%94%9F%E6%88%90%E6%A0%91"><span class="toc-text">2. 多生成树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B6%E4%BB%96%E9%85%8D%E7%BD%AE"><span class="toc-text">3. 其他配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%9B%B4%E6%8E%A5%E8%AE%BE%E7%BD%AE%E8%AE%BE%E5%A4%87%E4%B8%BA%E6%A0%B9%E7%BD%91%E6%A1%A5"><span class="toc-text">(1) 直接设置设备为根网桥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3%E6%88%90%E6%9C%AC"><span class="toc-text">(2) 修改端口成本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">(3) 修改端口优先级</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 特让他也让</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><span class="scroll-percent"></span><i class="fas fa-arrow-down"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.trtyr.top/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.trtyr.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script async src="\js\title.js"></script> <script async src="\js\fps.js"></script> <script defer src="\js\f12.js"></script> <script async src="https://cdn1.tianli0.top/npm/element-ui@2.15.6/lib/index.js"></script> <script async src="https://cdn1.tianli0.top/npm/vue@2.6.14/dist/vue.min.js"></script> <script defer src="/js/emoji.js"></script> <script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script> <script defer data-pjax src="js\cat.js"></script> <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script> <script async src="//at.alicdn.com/t/c/font_3780692_vpm98bdl0dp.js"></script> <script defer src="/js/cursor.js"></script> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(media/网络协议.webp);"> <a class="categoryBar-list-link" href="categories/网络工程/">网络工程</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络工程.webp);"> <a class="categoryBar-list-link" href="categories/网络安全/">网络安全</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/Windows.webp);"> <a class="categoryBar-list-link" href="categories/Windows/">Windows</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/社会工程学.webp);"> <a class="categoryBar-list-link" href="categories/网络协议/">网络协议</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(media/网络安全.webp);"> <a class="categoryBar-list-link" href="categories/社会工程学/">社会工程学</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = '07b0bda080a14fbcb7ac576c020f73fe';
+  var gaud_map_key = '4028e9252277c3c906e3c572fa17df68';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
