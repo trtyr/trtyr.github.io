@@ -36,7 +36,7 @@ function dark() {
         (this.x = l(0, n - 10)),
         (this.y = l(0, e)),
         (this.r = l(1.1, 2.6)),
-        (this.dx = l(t, 6 * t) + (this.comet + 1 - 1) * t * l(50, 120) + 0.1),
+        (this.dx = l(t, 6 * t) + (this.comet + 1 - 1) * t * l(50, 120) + 2 * t),
         (this.dy = -l(t, 6 * t) - (this.comet + 1 - 1) * t * l(50, 120)),
         (this.fadingOut = null),
         (this.fadingIn = !0),
@@ -105,9 +105,8 @@ function dark() {
       u();
     })(),
     (function t() {
-      "dark" ==
-        document.getElementsByTagName("html")[0].getAttribute("data-theme") &&
-        u(),
+      document.getElementsByTagName("html")[0].getAttribute("data-theme") ==
+        "dark" && u(),
         window.requestAnimationFrame(t);
     })();
 }

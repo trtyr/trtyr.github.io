@@ -1,50 +1,79 @@
+/* 导航栏魔改 */
+/* 一级菜单居中 */
 #nav .menus_items {
   position: absolute !important;
-  width: "-moz-fit-content" !important;
+  width: fit-content !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
 }
+/* 子菜单横向展示 */
 #nav .menus_items .menus_item:hover .menus_item_child {
   display: flex !important;
 }
+/* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 */
 .menus_items .menus_item:nth-child(2) .menus_item_child {
   left: -125px;
 }
+
+
+/* 一图流 */
+/* 页脚与头图透明 */
 #footer {
-  background: 0 0 !important;
+  background: transparent !important;
 }
 #page-header {
-  background: 0 0 !important;
+  background: transparent !important;
 }
+
+/* 白天模式遮罩透明 */
 #footer::before {
-  background: 0 0 !important;
+  background: transparent !important;
 }
 #page-header::before {
-  background: 0 0 !important;
+  background: transparent !important;
 }
+
+/* 夜间模式遮罩透明 */
 [data-theme="dark"] #footer::before {
-  background: 0 0 !important;
+  background: transparent !important;
 }
 [data-theme="dark"] #page-header::before {
-  background: 0 0 !important;
+  background: transparent !important;
 }
+
+
+/* 自定义字体 */
 @font-face {
-  font-family: YSHST;
+  /* 为载入的字体取名字(随意) */
+  font-family: 'YSHST';	
+  /* 字体文件地址(相对或者绝对路径都可以) */
   src: url(/font/苏新诗柳楷简.woff2);
-  font-weight: 400;
+  /* 定义加粗样式(加粗多少) */
+  font-weight: normal;
+  /* 定义字体样式(斜体/非斜体) */
   font-style: normal;
+  /* 定义显示样式 */
   font-display: block;
 }
+
+
+/* 文章双侧栏显示(小冰) */
+/* 翻页按钮居中 */
 #pagination {
   width: 100%;
   margin: auto;
 }
-[data-theme="light"] #post-info,
+
+
+/* 黑夜霓虹灯2.0（纯CSS实现） */
+/* 日间模式不生效 */
 [data-theme="light"] #site-name,
+[data-theme="light"] #site-title,
 [data-theme="light"] #site-subtitle,
-[data-theme="light"] #site-title {
+[data-theme="light"] #post-info {
   animation: none;
 }
+/* 夜间模式生效 */
 [data-theme="dark"] #site-name,
 [data-theme="dark"] #site-title {
   animation: light_15px 10s linear infinite;
@@ -55,6 +84,7 @@
 [data-theme="dark"] #post-info {
   animation: light_5px 10s linear infinite;
 }
+/* 关键帧描述 */
 @keyframes light_15px {
   0% {
     text-shadow: #5636ed 0 0 15px;
@@ -87,6 +117,7 @@
     text-shadow: #5636ed 0 0 15px;
   }
 }
+
 @keyframes light_10px {
   0% {
     text-shadow: #5636ed 0 0 10px;
@@ -119,6 +150,7 @@
     text-shadow: #5636ed 0 0 10px;
   }
 }
+
 @keyframes light_5px {
   0% {
     text-shadow: #5636ed 0 0 5px;
@@ -151,6 +183,10 @@
     text-shadow: #5636ed 0 0 5px;
   }
 }
+
+
+/* 个人卡片渐变色 */
+/* 侧边栏个人信息卡片动态渐变色 */
 #aside-content > .card-widget.card-info {
   background: linear-gradient(
     -45deg,
@@ -160,7 +196,7 @@
     #bdbdf0,
     #eec1ea
   );
-  box-shadow: 0 0 5px #424444;
+  box-shadow: 0 0 5px rgb(66, 68, 68);
   position: relative;
   background-size: 400% 400%;
   -webkit-animation: Gradient 10s ease infinite;
@@ -169,49 +205,58 @@
 }
 @-webkit-keyframes Gradient {
   0% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
 }
 @-moz-keyframes Gradient {
   0% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
 }
 @keyframes Gradient {
   0% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
 }
+
+/* 黑夜模式适配 */
 [data-theme="dark"] #aside-content > .card-widget.card-info {
   background: #191919ee;
 }
+
+/* 个人信息Follow me按钮 */
 #aside-content > .card-widget.card-info > #card-info-btn {
   background-color: #3eb8be;
   border-radius: 8px;
 }
+
+
+/* 听话的鼠标魔改 */
+/* 鼠标样式 */
 #cursor {
   position: fixed;
   width: 16px;
   height: 16px;
-  background: #39c5bb;
+  /* 这里改变跟随的底色 */
+  background: rgb(57, 197, 187);
   border-radius: 8px;
   opacity: 0.25;
   z-index: 10086;
@@ -219,85 +264,123 @@
   transition: 0.2s ease-in-out;
   transition-property: background, opacity, transform;
 }
+
 #cursor.hidden {
   opacity: 0;
 }
+
 #cursor.hover {
   opacity: 0.1;
+  transform: scale(2.5);
   -webkit-transform: scale(2.5);
   -moz-transform: scale(2.5);
   -ms-transform: scale(2.5);
   -o-transform: scale(2.5);
-  transform: scale(2.5);
 }
+
 #cursor.active {
   opacity: 0.5;
+  transform: scale(0.5);
   -webkit-transform: scale(0.5);
   -moz-transform: scale(0.5);
   -ms-transform: scale(0.5);
   -o-transform: scale(0.5);
-  transform: scale(0.5);
 }
+
+
+/* 页面样式调节 */
 :root {
   --trans-light: rgba(255, 255, 255, 0.88);
   --trans-dark: rgba(25, 25, 25, 0.88);
   --border-style: 1px solid rgb(169, 169, 169);
   --backdrop-filter: blur(5px) saturate(150%);
 }
+
+/* 首页文章卡片 */
 #recent-posts > .recent-post-item {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
   border-radius: 25px;
   border: var(--border-style);
 }
+
+/* 首页侧栏卡片 */
 #aside-content .card-widget {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
   border-radius: 18px;
   border: var(--border-style);
 }
-div#archive,
+
+/* 文章页、归档页、普通页面 */
+div#post,
 div#page,
-div#post {
+div#archive {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
   border: var(--border-style);
   border-radius: 20px;
 }
+
+/* 导航栏 */
 #page-header.nav-fixed #nav {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: var(--backdrop-filter);
 }
+
 [data-theme="dark"] #page-header.nav-fixed #nav {
   background: rgba(0, 0, 0, 0.7) !important;
 }
-[data-theme="dark"] #aside-content .card-widget,
+
+/* 夜间模式遮罩 */
 [data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] #aside-content .card-widget,
+[data-theme="dark"] div#post,
 [data-theme="dark"] div#archive,
-[data-theme="dark"] div#page,
-[data-theme="dark"] div#post {
+[data-theme="dark"] div#page {
   background: var(--trans-dark);
 }
+
+
+/* 夜间模式页脚页头遮罩透明 */
 [data-theme="dark"] #footer::before {
-  background: 0 0 !important;
+  background: transparent !important;
 }
 [data-theme="dark"] #page-header::before {
-  background: 0 0 !important;
+  background: transparent !important;
 }
+
+/* 阅读模式 */
 .read-mode #aside-content .card-widget {
   background: rgba(158, 204, 171, 0.5) !important;
 }
 .read-mode div#post {
   background: rgba(158, 204, 171, 0.5) !important;
 }
+
+/* 夜间模式下的阅读模式 */
 [data-theme="dark"] .read-mode #aside-content .card-widget {
   background: rgba(25, 25, 25, 0.9) !important;
-  color: #fff;
+  color: #ffffff;
 }
 [data-theme="dark"] .read-mode div#post {
   background: rgba(25, 25, 25, 0.9) !important;
-  color: #fff;
+  color: #ffffff;
 }
+
+
+/* 引入iconfont自定义图标（店长） */
+@import "//at.alicdn.com/t/font_2264842_b004iy0kk2b.css";
+
+.iconfont {
+  font-family: "iconfont" !important;
+  /* 这里可以自定义图标大小 */
+  font-size: 3em;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 svg.icon {
   width: 1.28em;
   height: 1.28em;
@@ -305,232 +388,150 @@ svg.icon {
   fill: currentColor;
   overflow: hidden;
 }
-h1::before,
-h2::before,
-h3::before,
-h4::before,
-h5::before,
-h6::before {
-  -webkit-animation: ccc 4s linear infinite;
-  animation: ccc 4s linear infinite;
+
+
+/* Social卡片彩色图标引入（店长） */
+svg.icon {
+  width: 1.28em;
+  height: 1.28em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
-@-webkit-keyframes ccc {
-  0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-  }
-  to {
-    -webkit-transform: rotate(-1turn);
-    transform: rotate(-1turn);
-  }
+
+
+/* 评论输入提醒（Leonus） */
+/* 设置文字内容 :nth-child(1)的作用是选择第几个 */
+.el-input.el-input--small.el-input-group.el-input-group--prepend:nth-child(1):before {
+  content: '输入QQ号会自动获取昵称和头像🐧';
 }
-@keyframes ccc {
-  0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-  }
-  to {
-    -webkit-transform: rotate(-1turn);
-    transform: rotate(-1turn);
-  }
+
+.el-input.el-input--small.el-input-group.el-input-group--prepend:nth-child(2):before {
+  content: '收到回复将会发送到您的邮箱📧';
 }
-#content-inner.layout h1::before {
-  color: #ef50a8;
-  margin-left: -1.55rem;
-  font-size: 1.3rem;
-  margin-top: -0.23rem;
+
+.el-input.el-input--small.el-input-group.el-input-group--prepend:nth-child(3):before {
+  content: '可以通过昵称访问您的网站🔗';
 }
-#content-inner.layout h2::before {
-  color: #fb7061;
-  margin-left: -1.35rem;
-  font-size: 1.1rem;
-  margin-top: -0.12rem;
-}
-#content-inner.layout h3::before {
-  color: #ffbf00;
-  margin-left: -1.22rem;
-  font-size: 0.95rem;
-  margin-top: -0.09rem;
-}
-#content-inner.layout h4::before {
-  color: #a9e000;
-  margin-left: -1.05rem;
-  font-size: 0.8rem;
-  margin-top: -0.09rem;
-}
-#content-inner.layout h5::before {
-  color: #57c850;
-  margin-left: -0.9rem;
-  font-size: 0.7rem;
-  margin-top: 0;
-}
-#content-inner.layout h6::before {
-  color: #5ec1e0;
-  margin-left: -0.9rem;
-  font-size: 0.66rem;
-  margin-top: 0;
-}
-#content-inner.layout h1:hover,
-#content-inner.layout h2:hover,
-#content-inner.layout h3:hover,
-#content-inner.layout h4:hover,
-#content-inner.layout h5:hover,
-#content-inner.layout h6:hover {
-  color: var(--theme-color);
-}
-#content-inner.layout h1:hover::before,
-#content-inner.layout h2:hover::before,
-#content-inner.layout h3:hover::before,
-#content-inner.layout h4:hover::before,
-#content-inner.layout h5:hover::before,
-#content-inner.layout h6:hover::before {
-  color: var(--theme-color);
-  -webkit-animation: ccc 6s linear infinite;
-  animation: ccc 6s linear infinite;
-}
-.el-input.el-input--small.el-input-group.el-input-group--prepend:nth-child(
-    1
-  ):before {
-  content: "输入QQ号会自动获取昵称和头像🐧";
-}
-.el-input.el-input--small.el-input-group.el-input-group--prepend:nth-child(
-    2
-  ):before {
-  content: "收到回复将会发送到您的邮箱📧";
-}
-.el-input.el-input--small.el-input-group.el-input-group--prepend:nth-child(
-    3
-  ):before {
-  content: "可以通过昵称访问您的网站🔗";
-}
-.el-input.el-input--small.el-input-group.el-input-group--prepend:focus-within::after,
-.el-input.el-input--small.el-input-group.el-input-group--prepend:focus-within::before {
+
+/* 当用户点击输入框时显示 */
+.el-input.el-input--small.el-input-group.el-input-group--prepend:focus-within::before,
+.el-input.el-input--small.el-input-group.el-input-group--prepend:focus-within::after {
   display: block;
 }
+
+/* 主内容区 */
 .el-input.el-input--small.el-input-group.el-input-group--prepend::before {
+  /* 先隐藏起来 */
   display: none;
+  /* 绝对定位 */
   position: absolute;
+  /* 向上移动60像素 */
   top: -60px;
+  /* 文字强制不换行，防止left:50%导致的文字换行 */
   white-space: nowrap;
+  /* 圆角 */
   border-radius: 10px;
+  /* 距离左边50% */
   left: 50%;
+  /* 然后再向左边挪动自身的一半，即可实现居中 */
   transform: translate(-50%);
+  /* 填充 */
   padding: 14px 18px;
   background: #444;
   color: #fff;
 }
+
+/* 小角标 */
 .el-input.el-input--small.el-input-group.el-input-group--prepend::after {
   display: none;
-  content: "";
+  content: '';
   position: absolute;
+  /* 内容大小（宽高）为0且边框大小不为0的情况下，每一条边（4个边）都是一个三角形，组成一个正方形。
+  我们先将所有边框透明，再给其中的一条边添加颜色就可以实现小三角图标 */
   border: 12px solid transparent;
   border-top-color: #444;
   left: 50%;
   transform: translate(-50%, -48px);
 }
+
+
+/* Heo同款加载动画（安知鱼） */
 .loading-img {
   background: url(/media/head.webp) no-repeat center center;
   background-size: cover;
 }
-.layout {
-  max-width: 1400px;
-}
-.aside-content {
-  max-width: 318px;
-  min-width: 300px;
-}
-@media screen and (max-width: 900px) {
-  .aside-content {
-    max-width: none !important;
-    padding: 0 5px 0 5px;
-  }
-}
-#archive,
-#category,
-#page,
-#tag {
-  width: 100%;
-}
-.page:not(.page.home) .aside-content {
+
+
+/* 自定义右键菜单（自用） */
+/* 右键菜单 */
+#rightMenu {
   display: none;
+  position: fixed;
+  width: 160px;
+  height: fit-content;
+  top: 10%;
+  left: 10%;
+    /* 菜单面板背景色 */
+  background-color: var(--card-bg);
+    /* 菜单面板文字颜色 */
+  border: 1px solid var(--font-color);
+  border-radius: 8px;
+  z-index: 100;
 }
-.card-info-avatar .author-status-box {
-  position: absolute;
-  bottom: 0;
-  left: calc(100% - 28px);
-  width: 28px;
-  height: 28px;
-  border: 1px solid #d0d7de;
-  border-radius: 2em;
-  background-color: #f8f8f8f8;
-  transition: 0.4s;
-  overflow: hidden;
+#rightMenu .rightMenu-group {
+  padding: 7px 6px;
 }
-[data-theme="dark"] .card-info-avatar .author-status-box {
-  background-color: #222222f2;
-  border: 1px solid #5c6060;
+#rightMenu .rightMenu-group:not(:nth-last-child(1)) {
+  border-bottom: 1px solid var(--font-color);
 }
-.card-info-avatar .author-status-box .author-status {
+#rightMenu .rightMenu-group.rightMenu-small {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 28px;
+  justify-content: space-between;
+}
+#rightMenu .rightMenu-group .rightMenu-item {
+  height: 30px;
+  line-height: 30px;
+  border-radius: 8px;
+  transition: 0.3s;
+  color: var(--font-color);
+}
+#rightMenu .rightMenu-group.rightMenu-line .rightMenu-item {
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 4px;
+}
+#rightMenu .rightMenu-group .rightMenu-item:hover {
+    /* 鼠标悬浮选项颜色 */
+  background-color: var(--text-bg-hover);
+}
+#rightMenu .rightMenu-group .rightMenu-item i {
+  display: inline-block;
+  text-align: center;
+  line-height: 30px;
+  width: 30px;
+  height: 30px;
   padding: 0 5px;
 }
-.card-info-avatar .author-status-box:hover {
-  width: 105px;
+#rightMenu .rightMenu-group .rightMenu-item span {
+  line-height: 30px;
 }
-.card-info-avatar .author-status-box:hover .author-status span {
-  width: 105px;
-  margin-left: 4px;
+
+#rightMenu .rightMenu-group.rightMenu-line .rightMenu-item * {
+  height: 40px;
+  line-height: 40px;
 }
-.card-info-avatar .author-status-box .author-status span {
-  width: 0;
-  font-size: 12px;
-  height: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  transition: 0.4s;
+.rightMenu-group.hide {
+  display: none;
 }
-.card-widget .card-info-avatar {
-  display: inline-block;
-  position: relative;
-}
-.author_top:hover {
-  background: url(https://tuchuang.voooe.cn/images/2023/01/02/snow.gif);
-  background-size: cover;
-}
-[data-theme="light"] .avatar-img {
-  animation: huxi_light 4s ease-in-out infinite;
-}
-[data-theme="dark"] .avatar-img {
-  animation: huxi_dark 4s ease-in-out infinite;
-}
-@keyframes huxi_light {
-  0% {
-    box-shadow: 0 0 1px 1px #e9f5fa;
-  }
-  50% {
-    box-shadow: 0 0 5px 5px #e9f5fa;
-  }
-  100% {
-    box-shadow: 0 0 1px 1px #e9f5fa;
-  }
-}
-@keyframes huxi_dark {
-  0% {
-    box-shadow: 0 0 1px 1px #39c5bb;
-  }
-  50% {
-    box-shadow: 0 0 5px 5px #39c5bb;
-  }
-  100% {
-    box-shadow: 0 0 1px 1px #39c5bb;
-  }
-}
+
+
+/* 添加fps显示(LYX) */
+/* 帧率检测 */
 #fps {
   position: fixed;
+  /* 指定位置 */
   left: 10px;
   bottom: 10px;
   z-index: 1919810;
@@ -547,6 +548,69 @@ h6::before {
   padding: 4px;
   border-radius: 4px;
 }
+
+
+/* 信息卡片头像状态 */
+.card-info-avatar .author-status-box {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% - 28px);
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d0d7de;
+  border-radius: 2em;
+  background-color: #f8f8f8f8;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .card-info-avatar .author-status-box {
+  background-color: #222222f2;
+  border: 1px solid #5c6060;
+}
+
+.card-info-avatar .author-status-box .author-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 5px;
+}
+
+.card-info-avatar .author-status-box:hover {
+  width: 105px;
+}
+
+.card-info-avatar .author-status-box:hover .author-status span {
+  width: 105px;
+  margin-left: 4px;
+}
+
+.card-info-avatar .author-status-box .author-status span {
+  width: 0;
+  font-size: 12px;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: 0.4s;
+}
+
+.card-widget .card-info-avatar {
+  display: inline-block;
+  position: relative;
+}
+
+
+/* 信息卡片鼠标悬浮彩带效果 */
+/* 信息卡片彩带 */
+.author_top:hover {
+  background: url(https://tuchuang.voooe.cn/images/2023/01/02/snow.gif);
+  background-size: cover;
+}
+
+
+/* 个人信息卡片背景图 */
 [data-theme="light"] #aside-content > .card-widget.card-info {
   background-image: url(https://sourcebucket.s3.ladydaily.com/img/snowflower.webp);
   background-repeat: no-repeat;
@@ -558,4 +622,124 @@ h6::before {
   background-repeat: no-repeat;
   background-attachment: inherit;
   background-size: 100%;
+}
+
+
+/* 头像呼吸灯 */
+[data-theme="light"] .avatar-img {
+  animation: huxi_light 4s ease-in-out infinite;
+}
+[data-theme="dark"] .avatar-img {
+  animation: huxi_dark 4s ease-in-out infinite;
+}
+@keyframes huxi_light {
+  0% {
+    box-shadow: 0px 0px 1px 1px #e9f5fa;
+  }
+  50% {
+    box-shadow: 0px 0px 5px 5px #e9f5fa;
+  }
+  100% {
+    box-shadow: 0px 0px 1px 1px #e9f5fa;
+  }
+}
+@keyframes huxi_dark {
+  0% {
+    box-shadow: 0px 0px 1px 1px #39c5bb;
+  }
+  50% {
+    box-shadow: 0px 0px 5px 5px #39c5bb;
+  }
+  100% {
+    box-shadow: 0px 0px 1px 1px #39c5bb;
+  }
+}
+
+
+/* twikoo评论美化 */
+/* 自定义twikoo评论输入框高度 */
+#twikoo .el-textarea textarea {
+  min-height: 120px !important;
+  background-size: 90px;
+}
+
+/* 自定义表情优化 */
+#twikoo .OwO-body {
+  max-width: 100% !important;
+}
+/* 选择某个框 #twikoo .OwO .OwO-body .OwO-items:nth-child(1) */
+#twikoo .OwO .OwO-body .OwO-items {
+  max-height: 250px !important;
+}
+
+.OwO .OwO-body .OwO-items-image .OwO-item {
+  max-width: calc(9% - 10px);
+  box-sizing: content-box;
+}
+.OwO .OwO-body .OwO-items-image .OwO-item[title|="Heybox"],
+.OwO .OwO-body .OwO-items-image .OwO-item[title|="Tieba"],
+.OwO .OwO-body .OwO-items-show .OwO-item[title*="bilibili"] {
+  max-width: calc(7% - 10px) !important;
+  box-sizing: content-box;
+}
+
+#twikoo .OwO-items li img {
+  width: 100% !important;
+}
+
+.tk-comment .vemoji[alt|="Menhera"],
+.tk-comment .tk-owo-emotion[alt*="Menhera"],
+.tk-comment .vemoji[alt|="Snow"],
+.tk-comment .tk-owo-emotion[alt*="Snow"],
+.tk-comment .vemoji[alt|="Sweetie"],
+.tk-comment .tk-owo-emotion[alt*="Sweetie"],
+.tk-comment .vemoji[alt|="Tsuri"],
+.tk-comment .tk-owo-emotion[alt*="Tsuri"],
+.tk-comment .vemoji[alt|="Yurui"],
+.tk-comment .tk-owo-emotion[alt*="Yurui"] {
+  max-width: 120px !important;
+  max-height: 120px !important;
+  width: 120px;
+  margin: 8px 1px;
+  display: block !important;
+}
+
+/* 手机端适配 */
+@media screen and (max-width: 768px) {
+  .tk-comment .vemoji[alt|="Menhera"],
+  .tk-comment .tk-owo-emotion[alt*="Menhera"],
+  .tk-comment .vemoji[alt|="Snow"],
+  .tk-comment .tk-owo-emotion[alt*="Snow"],
+  .tk-comment .vemoji[alt|="Sweetie"],
+  .tk-comment .tk-owo-emotion[alt*="Sweetie"],
+  .tk-comment .vemoji[alt|="Tsuri"],
+  .tk-comment .tk-owo-emotion[alt*="Tsuri"],
+  .tk-comment .vemoji[alt|="Yurui"],
+  .tk-comment .tk-owo-emotion[alt*="Yurui"] {
+    max-width: calc(100% - 30px) !important;
+    max-height: calc(100% - 30px) !important;
+  }
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Menhera"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Snow"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Sweetie"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Tsuri"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Yurui"] {
+    max-width: calc(33% - 10px);
+    box-sizing: border-box;
+  }
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Heybox"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="bilibili"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="Tieba"],
+  .OwO .OwO-body .OwO-items-image .OwO-item[title*="QQ"] {
+    max-width: calc(18% - 10px) !important;
+    box-sizing: content-box;
+  }
+}
+
+/* 右下角闭眼 */
+.el-textarea__inner {
+  background-image: url(https://tuchuang.voooe.cn/images/2023/01/02/open.webp) !important;
+}
+.el-textarea__inner:focus {
+  background-image: url(https://tuchuang.voooe.cn/images/2023/01/02/close.webp) !important;
 }
